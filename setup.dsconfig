@@ -1,0 +1,67 @@
+#
+# This dsconfig batch file creates the My Account OAuth2 Client within the
+# Data Broker and configures the Web Application Extension and Connection
+# Handler objects for the Broker to host it.
+#
+
+dsconfig create-oauth2-scope \
+    --scope-name urn:unboundid:scope:manage_account \
+    --type authenticated-identity \
+    --set "description:View and update the user's account." \
+    --set "consent-prompt-text:View and update your account." \
+    --set consent-operation:retrieve-consent \
+    --set consent-operation:retrieve-consent-history \
+    --set consent-operation:revoke-consent \
+    --set session-operation:delete-session \
+    --set session-operation:retrieve-session \
+    --set second-factor-preferences-operation:retrieve-second-factor-preferences \
+    --set second-factor-preferences-operation:update-second-factor-preferences \
+    --set external-identity-operation:link-external-identity \
+    --set external-identity-operation:retrieve-external-identity \
+    --set external-identity-operation:unlink-external-identity \
+    --set account-operation:reset-password \
+    --set account-operation:retrieve-password-quality-requirements \
+    --set resource-attribute:addresses \
+    --set resource-attribute:displayName \
+    --set resource-attribute:emails \
+    --set resource-attribute:name \
+    --set resource-attribute:phoneNumbers \
+    --set resource-attribute:photoURLs \
+    --set resource-attribute:urn:unboundid:schemas:sample:profile:1.0:birthDate \
+    --set resource-attribute:urn:unboundid:schemas:sample:profile:1.0:communicationOpts \
+    --set resource-attribute:urn:unboundid:schemas:sample:profile:1.0:contentOpts \
+    --set resource-attribute:urn:unboundid:schemas:sample:profile:1.0:postalCode \
+    --set resource-attribute:urn:unboundid:schemas:sample:profile:1.0:termsOfService \
+    --set resource-attribute:urn:unboundid:schemas:sample:profile:1.0:topicPreferences \
+    --set resource-attribute:userName \
+    --set resource-operation:modify \
+    --set resource-operation:retrieve
+
+dsconfig create-oauth2-client \
+    --client-name "my-account" \
+    --set "description:Data Broker sample UI for self-service account management." \
+    --set "client-id:@my-account@" \
+    --set grant-type:implicit \
+    --set redirect-url:/samples/my-account/callback.html \
+    --set redirect-url:http://localhost:3004/callback.html
+
+dsconfig create-permitted-scope \
+    --client-name "my-account" \
+    --scope-name openid
+
+dsconfig create-permitted-scope \
+    --client-name "my-account" \
+    --scope-name urn:unboundid:scope:manage_account
+
+dsconfig create-web-application-extension \
+    --extension-name "My Account Sample" \
+    --set "description:Web Application Extension for hosting the UnboundID my-account sample application." \
+    --set base-context-path:/samples/my-account \
+    --set war-file:samples/my-account/my-account.war \
+    --set deployment-descriptor-file:resource/single-page-application-web.xml \
+    --applyChangeTo single-server
+
+dsconfig set-connection-handler-prop \
+    --handler-name "HTTPS Connection Handler" \
+    --add "web-application-extension:my-account" \
+    --applyChangeTo single-server

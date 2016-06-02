@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<!--
+  Data Broker My Account Sample in-browser test runner.
+-->
+<html>
+<head>
+  <title>my-account Tests</title>
+  <link rel="stylesheet" href="node_modules/jasmine-core/lib/jasmine-core/jasmine.css">
+  <script src="node_modules/jasmine-core/lib/jasmine-core/jasmine.js"></script>
+  <script src="node_modules/jasmine-core/lib/jasmine-core/jasmine-html.js"></script>
+  <script src="node_modules/jasmine-core/lib/jasmine-core/boot.js"></script>
+</head>
+<body>
+
+<!-- #1. load the dependencies -->
+<script src="dist/vendor/platform.js"></script>
+<script src="dist/vendor/es6-shim.min.js"></script>
+<script src="dist/vendor/zone.min.js"></script>
+<script src="dist/vendor/Reflect.js"></script>
+<script src="dist/vendor/system.js"></script>
+<script src="system.config.js"></script>
+<script src="dist/vendor/lib-bundle.js"></script>
+<script src="dist/app/app-bundle.js"></script>
+
+<script>
+  // #2. Configure systemjs to use the .js extension for imports from the dist folder
+  System.config({
+    packages: {
+      dist: {
+        format: 'register',
+        defaultExtension: 'js'
+      }
+    }
+  });
+
+  // #3. Import the spec files explicitly
+  Promise.all([
+    System.import('dist/app/profile/password-requirements.component.spec')
+  ])
+  // #4. Wait for all imports to load, then re-execute 'window.onload' which triggers the Jasmine test-runner start or
+  //     explain what went wrong.
+  .then(window.onload)
+  .catch(console.error.bind(console));
+</script>
+
+</body>
+</html>

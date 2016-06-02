@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<!--
+  my-account
+  Copyright 2016 UnboundID Corp.
+  All Rights Reserved.
+
+  Data Broker sample UI for self-service account management.
+-->
+<html>
+  <head>
+    <title>UnboundID Data Broker My Account Sample</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <link href="dist/img/unboundid-u-transparent-16x16.ico" rel="shortcut icon">
+    <link href="dist/vendor/bootstrap.min.css" rel="stylesheet">
+    <link href="dist/vendor/font-awesome.min.css" rel="stylesheet">
+    <link href="dist/css/ubid-account.min.css" rel="stylesheet">
+  </head>
+  <body class="login-body">
+    <!-- app container -->
+    <ubid-app>
+      <span class="fa fa-spinner fa-pulse loading-icon"></span>
+    </ubid-app>
+
+    <!-- load app and dependency scripts -->
+    <script src="dist/vendor/platform.js"></script>
+    <script src="dist/vendor/es6-shim.min.js"></script>
+    <script src="dist/vendor/zone.min.js"></script>
+    <script src="dist/vendor/Reflect.js"></script>
+    <script src="dist/vendor/system.js"></script>
+    <script src="system.config.js"></script>
+    <script src="dist/vendor/lib-bundle.js"></script>
+    <script src="dist/app/app-bundle.js"></script>
+
+    <!-- import the app -->
+    <script>
+      System.import('app').
+          catch(function(err) { console.error(err); });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,7 @@
+dist
+node_modules
+typings
+my-account-source.tar.gz
+my-account.tar.gz
+my-account.war
+.idea
