@@ -63,5 +63,5 @@ dsconfig create-web-application-extension \
 
 dsconfig set-connection-handler-prop \
     --handler-name "HTTPS Connection Handler" \
-    --add "web-application-extension:my-account" \
+    --add "web-application-extension:My Account Sample" \
     --applyChangeTo single-server
