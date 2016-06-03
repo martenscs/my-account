@@ -58,7 +58,7 @@ dsconfig create-web-application-extension \
     --set "description:Web Application Extension for hosting the UnboundID my-account sample application." \
     --set base-context-path:/samples/my-account \
     --set war-file:samples/my-account/my-account.war \
-    --set deployment-descriptor-file:resource/single-page-application-web.xml \
+    --set deployment-descriptor-file:config/single-page-application-web.xml \
     --applyChangeTo single-server
 
 dsconfig set-connection-handler-prop \
