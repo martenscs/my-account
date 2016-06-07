@@ -6,7 +6,7 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
-import { Configuration, AlertService, Alert, LoadingService } from './index';
+import { Configuration, AlertService, Alert, LoadingService, HttpWrapper } from './index';
 import { template } from './layout.html';
 
 @Component({
@@ -17,6 +17,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
   @Input() title: string;
 
   alerts: Alert[];
+  logoutUrl: string;
   showLoading = false;
 
   private alertSubscription: Subscription;
@@ -24,9 +25,11 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
   // NOTE: Configuration instance is referenced by the template.
   constructor(private configuration: Configuration, private alertService: AlertService,
-              private loadingService: LoadingService) {}
+              private loadingService: LoadingService, private httpWrapper: HttpWrapper) {}
 
   ngOnInit() {
+    this.logoutUrl = this.httpWrapper.getLogoutUrl();
+
     this.alertSubscription = this.alertService.alerts$.subscribe(
         (alerts: Alert[]) => this.alerts = alerts);
 

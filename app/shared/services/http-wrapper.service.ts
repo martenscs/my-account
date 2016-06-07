@@ -115,6 +115,11 @@ export class HttpWrapper {
         'nonce=' + nonce;
   }
 
+  public getLogoutUrl(): string {
+    return this.buildUrl(IDENTITY_PROVIDER_URL, 'oauth/logout') + '?' +
+        'post_logout_redirect_uri=' + encodeURIComponent(CLIENT_REDIRECT_URL);
+  }
+
   private buildUrl(base: string, path: string): string {
     if (base && base.lastIndexOf('/') === base.length - 1) {
       base = base.substring(0, base.length - 1);

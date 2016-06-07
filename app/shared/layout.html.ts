@@ -23,6 +23,8 @@ export const template = `
         </div>
         <div class="login-footer">
           <div class="footer-contents">
+            <a [href]="logoutUrl">Sign Out</a>
+            <span class="separator">|</span>
             <a (click)="showAbout = true"
                href="javascript:void(0)">Powered by UnboundID Data Broker</a>
           </div>
