@@ -15,7 +15,8 @@ import { AlertService, HttpWrapper, LoadingService, Utility, Profile } from '../
 
 const STORAGE_KEY: any = {
   FLOW_STATE: 'my_account_flow_state',
-  ACCESS_TOKEN: 'my_account_access_token'
+  ACCESS_TOKEN: 'my_account_access_token',
+  STATE: 'my_account_state'
 };
 
 
@@ -26,7 +27,7 @@ export class ScimService {
 
   public initialized: boolean = false;
 
-  public error: string;
+  public error: any;
   
   public isIdpCallback: boolean = false;
 
@@ -45,7 +46,21 @@ export class ScimService {
   private externalIdentities: BehaviorSubject<any[]> = new BehaviorSubject(undefined);
   private _externalIdentities$: Observable<any> = this.externalIdentities.asObservable();
 
-  private handleError = (err: Response) => this.alertService.add(err);
+  private criticalError: BehaviorSubject<any> = new BehaviorSubject(undefined);
+  private _criticalError$: Observable<any> = this.criticalError.asObservable();
+
+  private handleError = (err: Response) => {
+    var error: any = this.formatError(err);
+    // is it a critical error?
+    if (error.details === '401') {
+      this.error = error;
+      this.criticalError.next(this.error);
+    }
+    else {
+      // not critical, just alert it
+      this.alertService.add(error.message);
+    }
+  };
 
   constructor(@Inject(Window) window: Window,
               private alertService: AlertService,
@@ -76,24 +91,29 @@ export class ScimService {
       // this is an OAuth callback
       params = HttpWrapper.parseParams(HttpWrapper.decodeCallbackArg(params['chash']));
       if (params['access_token']) {
-        this.httpWrapper.bearerToken = params['access_token'];
-        // TODO: validate state and nonce
+        // validate state
+        if (params['state'] !== this.window.sessionStorage.getItem(STORAGE_KEY.STATE)) {
+          this.error = this.formatError('The given state value (' + params['state'] + ') does not match what was ' +
+              'sent with the request (' + this.window.sessionStorage.getItem(STORAGE_KEY.STATE) + ')');
+        }
+        else {
+          this.httpWrapper.bearerToken = params['access_token'];
+        }
       }
       else if (params['error']) {
-        this.error = (params['error_description'] ?
-          params['error_description'] + ' (' + params['error'] + ')' :
-          params['error']).replace(/\+/g, ' ');
+        this.error = this.formatError(params['error_description'] || params['error'],
+            params['error_description'] ? params['error'] : undefined);
+        this.error.message = this.error.message.replace(/\+/g, ' ');
       }
       else {
-        this.error = 'Unexpected OAuth callback parameters';
+        this.error = this.formatError('Unexpected OAuth callback parameters');
       }
     }
     else {
       // redirect for access token
-      // TODO: store state and nonce for later validation
       var state = Utility.getRandomInt(0, 999999);
-      var nonce = Utility.getRandomInt(0, 999999);
-      var uri = this.httpWrapper.getAuthorizeUrl(state, nonce);
+      this.window.sessionStorage.setItem(STORAGE_KEY.STATE, state.toString());
+      var uri = this.httpWrapper.getAuthorizeUrl(state);
       this.window.location.assign(uri);
       return;
     }
@@ -140,6 +160,10 @@ export class ScimService {
       this.fetchExternalIdentities();
     }
     return this._externalIdentities$;
+  }
+
+  get criticalError$(): Observable<any> {
+    return this._criticalError$;
   }
 
   fetchProfile(): Observable<Profile> {
@@ -229,7 +253,7 @@ export class ScimService {
       flowState: flowState.flowState
     };
 
-    var o = this.httpWrapper.put(flowState.meta.location, JSON.stringify(data));
+    var o = this.httpWrapper.put(this.getLocation(flowState), JSON.stringify(data));
     o.subscribe(
         (data: any) => {
           var identities: any[] = this.externalIdentities.getValue();
@@ -247,7 +271,7 @@ export class ScimService {
       callbackUrl: this.httpWrapper.getUrl('callback.html')
     };
 
-    var o = this.httpWrapper.put(externalIdentity.meta.location, JSON.stringify(data));
+    var o = this.httpWrapper.put(this.getLocation(externalIdentity), JSON.stringify(data));
     o.subscribe(
           (data: any) => {
             // store the flow state and access token for when we return
@@ -266,7 +290,7 @@ export class ScimService {
   }
 
   removeExternalIdentity(externalIdentity: any): Observable<any> {
-    var o = this.httpWrapper.delete(externalIdentity.meta.location);
+    var o = this.httpWrapper.delete(this.getLocation(externalIdentity));
     o.subscribe(
         () => {
           var identities: any[] = this.externalIdentities.getValue();
@@ -303,11 +327,11 @@ export class ScimService {
   }
 
   private removeSubjectEntry(subject: BehaviorSubject<any[]>, obj: any): Observable<any> {
-    var o = this.httpWrapper.delete(obj.meta.location);
+    var o = this.httpWrapper.delete(this.getLocation(obj));
     o.subscribe(
         () => {
           var objects = subject.getValue();
-          objects.splice(objects.indexOf(obj));
+          objects.splice(objects.indexOf(obj), 1);
           subject.next(objects);
         },
         this.handleError
@@ -324,5 +348,43 @@ export class ScimService {
       record.meta.lastModified = new Date(record.meta.lastModified);
     }
     return record;
+  }
+
+  private getLocation(record: any): string {
+    return (record && record.meta) ? record.meta.location : undefined;
+  }
+
+  private formatError(error: any, details?: string): any {
+    var obj: any = {}, message: string;
+
+    // is it a response object?
+    error = HttpWrapper.parseResponse(error);
+    if (error.detail) {
+      message = error.detail;
+      if (error.scimType || error.status) {
+        message += ' (';
+        if (error.scimType) {
+          message += error.scimType;
+        }
+        if (error.status) {
+          if (error.scimType) {
+            message += ', ';
+          }
+          message += error.status;
+          obj.details = '' + error.status;
+        }
+        message += ')';
+      }
+      obj.message = message;
+    }
+    else {
+      // otherwise should be string
+      obj.message = error;
+      if (details) {
+        obj.details = details;
+      }
+    }
+
+    return obj;
   }
 }

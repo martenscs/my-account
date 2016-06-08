@@ -12,7 +12,7 @@
     "url": "https://github.com/UnboundID/my-account/issues"
   },
   "scripts": {
-    "clean": "rm -rf dist && mkdir dist && mkdir dist/app && mkdir dist/css && mkdir dist/vendor",
+    "clean": "rm -Rf dist && mkdir dist && mkdir dist/app && mkdir dist/css && mkdir dist/vendor",
     "copy-js": "cd node_modules && cp systemjs/dist/system.js systemjs/dist/system.js.map es6-shim/es6-shim.min.js es6-shim/es6-shim.map zone.js/dist/zone.min.js reflect-metadata/Reflect.js reflect-metadata/Reflect.js.map platform/platform.js ../dist/vendor/",
     "copy-assets": "cd assets && cleancss -o ../dist/css/ubid-account.min.css css/ubid-account.css && cp -R img ../dist/ && cd ../node_modules && cp bootstrap/dist/css/bootstrap.min.css font-awesome/css/font-awesome.min.css ../dist/vendor/ && cp -R bootstrap/dist/fonts font-awesome/fonts ../dist/ && rm -Rf ../dist/fonts/4.4.0",
     "lint-ts": "tslint -c tslint.json app/**/*.ts",
@@ -27,7 +27,8 @@
     "dev": "npm-run-all build-except-app -p watch serve-dev",
     "serve-test": "lite-server -c browser-sync-test.config.js",
     "test": "npm-run-all build-except-app -p watch serve-test",
-    "prod": "npm run build && rm `find ./dist -name *.spec.js*`",
+    "jar": "jar cvf my-account.war app dist index.html callback.html package.json system.config.js",
+    "prod": "npm run build && rm `find ./dist -name *.spec.js*` && npm run jar",
     "postinstall": "typings install"
   },
   "dependencies": {
@@ -51,7 +52,6 @@
     "clean-css": "3.4.12",
     "codelyzer": "0.0.19",
     "connect-history-api-fallback": "1.2.0",
-    "es6-promise": "3.2.1",
     "jasmine-core": "2.4.1",
     "lite-server": "2.2.0",
     "nodemon": "1.9.2",

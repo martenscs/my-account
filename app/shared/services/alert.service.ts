@@ -7,8 +7,6 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 
-import { HttpWrapper } from '../index';
-
 export enum AlertType { Info, Warning, Error }
 
 export class Alert {
@@ -36,25 +34,7 @@ export class AlertService {
     return this._alerts$;
   }
 
-  add(message: any, type: AlertType = AlertType.Error) {
-    message = HttpWrapper.parseResponse(message);
-    if (message.detail) {
-      var m = message.detail;
-      if (message.scimType || message.status) {
-        m += ' (';
-        if (message.scimType) {
-          m += message.scimType;
-        }
-        if (message.status) {
-          if (message.scimType) {
-            m += ', ';
-          }
-          m += message.status;
-        }
-        m += ')';
-        message = m;
-      }
-    }
+  add(message: string, type: AlertType = AlertType.Error) {
     // NOTE: clear the alerts first, only ever have 1 currently...
     var alerts: Alert[] = [];
     alerts.push(new Alert(message, type));

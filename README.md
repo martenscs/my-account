@@ -25,8 +25,8 @@ Data Broker sample UI for self-service account management
    directory of your Tomcat installation and restart).
 5. Use dsconfig to run the commands in the setup.dsconfig file that add the required Scope and OAuth Client objects to
    the Data Broker's configuration.
-6. Use dsconfig or the Management Console application to add the URI the sample application will be accessible at to the
-   my-account Sample Application's Redirect URIs list.
+6. Use dsconfig or the Management Console application to add the URL the sample application will be accessible at to the
+   My Account OAuth2 Client's Redirect URLs list.
 7. Use dsconfig or the Management Console application to edit the HTTP Servlet Cross Origin Policy configuration to
    allow for cross-domain AJAX requests to the Data Broker's SCIM2 HTTP Servlet Extension. The sample application's
    origin and the Data Broker's origin should be added to "cors-allowed-origins", "authorization" should
@@ -60,15 +60,17 @@ Once node and npm are installed, the project's dependencies can be installed by 
 directory.
 
 The package.json file defines several project scripts that can be run via "npm run [SCRIPT NAME]".  Examples include
-"prod" which will rebuild the project for packaging in a war file, "dev" for running the project in the development
-environment, and "test" for running the referenced jasmine test spec files within the development environment.
+"prod" which will rebuild the project and package it in a war file, "dev" for running the project in the development
+environment, and "test" for running the referenced jasmine test spec files within the development environment.  NOTE:
+The scripts assume a UNIX-based operating system.  They will need to be modified if you are using a Windows development
+environment.
 
-Once the project has been rebuilt, the war file can be packaged from the command-line using a command such as
-"jar cvf my-account.war app dist index.html callback.html package.json system.config.js".
+When ready to deploy a customization, run "npm run prod" from the command-line to rebuild the project and package it
+into a war file.
 
-The my-account Web Application Extension can then be updated to reference the custom my-account.war file (make sure
-to remove "tmp/My Account Sample" so that the Data Broker will redeploy from the new war file when the HTTP connection
-handler and/or the server are restarted).
+The My Account Web Application Extension can then be updated to reference the custom my-account.war file (make sure
+to remove "tmp/My Account" so that the Data Broker will redeploy from the new war file when the HTTP connection handler
+and/or the server are restarted).
 
 Several configuration values are defined in the app/app.config.ts file for easy customization.  The configuration values
 can be found near the top of the script (search for the "export" statements). Values include:
@@ -78,11 +80,11 @@ can be found near the top of the script (search for the "export" statements). Va
    The URI of the Data Broker's SCIM connection handler.  A value like "https://1.2.3.4:8443" should be used.
 3. CLIENT_REDIRECT_URL
    The redirect URI for the client in the OAuth flow.  This should be the address used to view the sample, and
-   should be one of the Redirect URIs configured for the sample application in the Data Broker.  A value like
+   should be one of the Redirect URLs configured for the sample OAuth2 Client in the Data Broker.  A value like
    "https://1.2.3.4:8443/samples/my-account/" should be used.
 4. CLIENT_ID
-   The Client ID assigned to the my-account Sample Application in the Data Broker configuration.  This is
-   set to a known value by the setup configuration script and should not typically need to be changed.
+   The Client ID assigned to the My Account OAuth2 Client in the Data Broker configuration.  This is set to a known
+   value by the setup configuration script and should not typically need to be changed.
 5. SCOPES
    The Scopes requested by the sample.  A space-separated value like "openid urn:unboundid:scope:manage_account"
    should be used.
@@ -102,7 +104,7 @@ for additional information:
     http://bugs.jquery.com/ticket/12698
 
 2. This sample uses the OAuth 2 implicit grant for retrieving access tokens, and sessionStorage for temporarily
-persisting them for use by client scripts in the browser.  You should not do the same in your own applications without
+persisting data for use by client scripts in the browser.  You should not do the same in your own applications without
 considering the security implications of this approach.  When using the implicit grant, the access tokens are exposed to
 the user and potentially other applications with access to the user's browser.  Additionally, sessionStorage is scoped
 per origin and window/tab, which makes it accessible to other applications running on the same server and port (Data

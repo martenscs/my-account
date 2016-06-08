@@ -38,24 +38,24 @@ dsconfig create-oauth2-scope \
     --set resource-operation:retrieve
 
 dsconfig create-oauth2-client \
-    --client-name "my-account" \
+    --client-name "My Account" \
     --set "description:Data Broker sample UI for self-service account management." \
     --set "client-id:@my-account@" \
     --set grant-type:implicit \
-    --set redirect-url:/samples/my-account/callback.html \
-    --set redirect-url:http://localhost:3004/callback.html
+    --set redirect-url:/samples/my-account/callback.html
+
+# Uncomment the following command to add a redirect URL for running the sample via "npm run dev" with the default
+# configuration
+#dsconfig set-oauth2-client-prop --client-name "My Account" \
+#    --add redirect-url:http://localhost:3004/callback.html
 
 dsconfig create-permitted-scope \
-    --client-name "my-account" \
-    --scope-name openid
-
-dsconfig create-permitted-scope \
-    --client-name "my-account" \
+    --client-name "My Account" \
     --scope-name urn:unboundid:scope:manage_account
 
 dsconfig create-web-application-extension \
-    --extension-name "My Account Sample" \
-    --set "description:Web Application Extension for hosting the UnboundID my-account sample application." \
+    --extension-name "My Account" \
+    --set "description:Web Application Extension for hosting the UnboundID My Account sample application." \
     --set base-context-path:/samples/my-account \
     --set war-file:samples/my-account/my-account.war \
     --set deployment-descriptor-file:config/single-page-application-web.xml \
@@ -63,5 +63,5 @@ dsconfig create-web-application-extension \
 
 dsconfig set-connection-handler-prop \
     --handler-name "HTTPS Connection Handler" \
-    --add "web-application-extension:My Account Sample" \
+    --add "web-application-extension:My Account" \
     --applyChangeTo single-server

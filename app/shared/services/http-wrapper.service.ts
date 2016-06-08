@@ -105,14 +105,13 @@ export class HttpWrapper {
     return this.buildUrl(RESOURCE_SERVER_URL, path);
   }
 
-  public getAuthorizeUrl(state: number, nonce: number): string {
+  public getAuthorizeUrl(state: number): string {
     return this.buildUrl(IDENTITY_PROVIDER_URL, 'oauth/authorize') + '?' +
-        'response_type=' + encodeURIComponent('token id_token') + '&' +
+        'response_type=' + encodeURIComponent('token') + '&' +
         'client_id=' + encodeURIComponent(CLIENT_ID) + '&' +
         'redirect_uri=' + encodeURIComponent(CLIENT_REDIRECT_URL) + '&' +
         'scope=' + encodeURIComponent(SCOPES) + '&' +
-        'state=' + state + '&' +
-        'nonce=' + nonce;
+        'state=' + state;
   }
 
   public getLogoutUrl(): string {

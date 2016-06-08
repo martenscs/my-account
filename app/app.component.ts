@@ -59,6 +59,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private window: Window;
   private routeSubscription: any;
+  private errorSubscription: any;
 
   show: boolean;
 
@@ -71,6 +72,13 @@ export class AppComponent implements OnInit, OnDestroy {
     // clear the alerts on route change
     this.routeSubscription = this.router.changes.subscribe(() => this.alertService.clear());
     
+    // route to error on critical error
+    this.errorSubscription = this.scimService.criticalError$.subscribe((err: any) => {
+      if (err) {
+        this.router.navigate([ '/error' ])
+      }
+    });
+
     // navigate to the appropriate initial view
     var route = '/';
     if (this.scimService.isIdpCallback) {
@@ -88,6 +96,9 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.routeSubscription && this.routeSubscription.unsubscribe) {
       this.routeSubscription.unsubscribe();
+    }
+    if (this.errorSubscription) {
+      this.errorSubscription.unsubscribe();
     }
   }
 }

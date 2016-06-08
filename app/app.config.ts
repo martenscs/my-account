@@ -18,8 +18,7 @@ export const RESOURCE_SERVER_URL = IDENTITY_PROVIDER_URL;
 
 export const CLIENT_ID = '@my-account@';
 
-export const SCOPES = 'openid ' +
-    'urn:unboundid:scope:manage_account';
+export const SCOPES = 'urn:unboundid:scope:manage_account';
 
 
 @Injectable()
