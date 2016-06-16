@@ -18,7 +18,12 @@ export const RESOURCE_SERVER_URL = IDENTITY_PROVIDER_URL;
 
 export const CLIENT_ID = '@my-account@';
 
-export const SCOPES = 'urn:unboundid:scope:manage_account';
+export const SCOPES = 'urn:unboundid:scope:manage_profile ' +
+    'urn:unboundid:scope:password_quality_requirements ' +
+    'urn:unboundid:scope:change_password ' +
+    'urn:unboundid:scope:manage_external_identities ' +
+    'urn:unboundid:scope:manage_sessions ' +
+    'urn:unboundid:scope:manage_consents';
 
 
 @Injectable()

@@ -181,7 +181,7 @@ export class ScimService {
   }
 
   fetchSessions(): Observable<any[]> {
-    var o = this.httpWrapper.get(this.getUrl('Me/session'));
+    var o = this.httpWrapper.get(this.getUrl('Me/sessions'));
     o.subscribe((data: any) => {
           if (data.Resources) {
             data.Resources.forEach((session: any) => {
