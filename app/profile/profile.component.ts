@@ -4,9 +4,6 @@
  */
 
 import { Component } from '@angular/core';
-import { Routes } from '@angular/router';
-
-import { ProfileViewComponent, ProfileEditComponent, ChangePasswordComponent } from './index';
 
 @Component({
   selector: 'ubid-profile',
@@ -14,18 +11,4 @@ import { ProfileViewComponent, ProfileEditComponent, ChangePasswordComponent } f
       <router-outlet></router-outlet>
     `
 })
-@Routes([
-  {
-    path: '/',
-    component: ProfileViewComponent
-  },
-  {
-    path: '/edit',
-    component: ProfileEditComponent
-  },
-  {
-    path: '/change-password',
-    component: ChangePasswordComponent
-  }
-])
 export class ProfileComponent {}

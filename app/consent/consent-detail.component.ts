@@ -4,7 +4,7 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { Router, RouteSegment } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { BreadCrumbComponent, ConfirmComponent, CapitalizePipe, ScimService } from '../shared/index'
 import { template } from './consent-detail.html';
@@ -19,10 +19,10 @@ export class ConsentDetailComponent implements OnInit {
   consent: any;
   showConfirm = false;
 
-  constructor(private router: Router, private routeSegment: RouteSegment, private scimService: ScimService) { }
+  constructor(private router: Router, private route: ActivatedRoute, private scimService: ScimService) { }
 
   ngOnInit() {
-    var id = this.routeSegment.getParam('id');
+    var id: string = this.route.snapshot.params['id'];
 
     this.scimService.consents$
         .subscribe(

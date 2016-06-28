@@ -4,7 +4,7 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { RouteSegment } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 import { Configuration, ScimService } from '../shared/index';
 import { template } from './error.html';
@@ -20,13 +20,13 @@ export class ErrorComponent implements OnInit {
   accessDenied: boolean;
   requestAccessUrl: string;
   
-  constructor(private routeSegment: RouteSegment, private configuration: Configuration,
+  constructor(private route: ActivatedRoute, private configuration: Configuration,
               private scimService: ScimService) {}
 
   ngOnInit() {
-    this.message = this.routeSegment.getParam('message') ||
+    this.message = this.route.snapshot.params['message'] ||
         (this.scimService.error ? this.scimService.error.message : undefined);
-    this.details = this.routeSegment.getParam('details') ||
+    this.details = this.route.snapshot.params['details'] ||
         (this.scimService.error ? this.scimService.error.details : undefined);
 
     this.accessDenied = this.details === 'access_denied' || this.details === '401';

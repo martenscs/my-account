@@ -50,6 +50,6 @@ export class ConsentListComponent implements OnInit, OnDestroy  {
   }
 
   viewDetail(consent: any) {
-    this.router.navigate(['/consent/detail', consent.id]);
+    this.router.navigate(['/consent', consent.id]);
   }
 }

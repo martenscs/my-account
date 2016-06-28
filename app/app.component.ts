@@ -4,15 +4,8 @@
  */
 
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
-import { Routes, Router } from '@angular/router';
+import { Router, Event, NavigationStart } from '@angular/router';
 
-import { IndexComponent } from './index/index';
-import { ProfileComponent } from './profile/index';
-import { ExternalIdentityListComponent } from './external-identity/index';
-import { SessionListComponent } from './session/index';
-import { ConsentComponent } from './consent/index';
-import { PreferenceComponent } from './preference/index';
-import { ErrorComponent } from './error/index';
 import { AlertService, LoadingService, HttpWrapper, ScimService, LayoutComponent } from './shared/index';
 
 @Component({
@@ -25,36 +18,6 @@ import { AlertService, LoadingService, HttpWrapper, ScimService, LayoutComponent
   providers: [ AlertService, LoadingService, HttpWrapper, ScimService ],
   directives: [ LayoutComponent ]
 })
-@Routes([
-  {
-    path: '/',
-    component: IndexComponent
-  },
-  {
-    path: '/profile',
-    component: ProfileComponent
-  },
-  {
-    path: '/external-identity',
-    component: ExternalIdentityListComponent
-  },
-  {
-    path: '/session',
-    component: SessionListComponent
-  },
-  {
-    path: '/consent',
-    component: ConsentComponent
-  },
-  {
-    path: '/preference',
-    component: PreferenceComponent
-  },
-  {
-    path: '/error',
-    component: ErrorComponent
-  }
-])
 export class AppComponent implements OnInit, OnDestroy {
 
   private window: Window;
@@ -70,8 +33,12 @@ export class AppComponent implements OnInit, OnDestroy {
   
   ngOnInit() {
     // clear the alerts on route change
-    this.routeSubscription = this.router.changes.subscribe(() => this.alertService.clear());
-    
+    this.routeSubscription = this.router.events.subscribe((event:Event) => {
+      if (event instanceof NavigationStart) {
+        this.alertService.clear();
+      }
+    });
+
     // route to error on critical error
     this.errorSubscription = this.scimService.criticalError$.subscribe((err: any) => {
       if (err) {
@@ -94,7 +61,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.routeSubscription && this.routeSubscription.unsubscribe) {
+    if (this.routeSubscription) {
       this.routeSubscription.unsubscribe();
     }
     if (this.errorSubscription) {

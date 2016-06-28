@@ -4,9 +4,7 @@
  */
 
 import { Component } from '@angular/core';
-import { Routes } from '@angular/router';
 
-import { ConsentListComponent, ConsentDetailComponent } from './index';
 
 @Component({
   selector: 'ubid-consent',
@@ -14,14 +12,4 @@ import { ConsentListComponent, ConsentDetailComponent } from './index';
       <router-outlet></router-outlet>
     `
 })
-@Routes([
-  {
-    path: '/',
-    component: ConsentListComponent
-  },
-  {
-    path: '/detail/:id',
-    component: ConsentDetailComponent
-  }
-])
 export class ConsentComponent {}
