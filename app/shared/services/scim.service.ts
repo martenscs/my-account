@@ -233,7 +233,17 @@ export class ScimService {
     };
     var o = this.httpWrapper.put(this.getUrl('Me/password'), JSON.stringify(data));
     o.subscribe(() => {},
-        this.handleError);
+        (err: any) => {
+          var error: any;
+          // provide a friendly error message if the error is due to incorrect current password provided
+          if (currentPassword && err.status === 401) {
+            error = HttpWrapper.parseResponse(err);
+            if (error && error.detail && error.detail.indexOf('invalid credentials') !== -1) {
+              err = 'The current password is incorrect.';
+            }
+          }
+          return this.handleError(err);
+        });
     return o;
   }
 
