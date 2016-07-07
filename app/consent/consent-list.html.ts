@@ -36,7 +36,7 @@ export const template = `
               <img [src]="consent.client.iconUrl || 'dist/img/generic-app.png'"
                    [alt]="consent.client.name"
                    [title]="consent.client.name"
-                   style="max-width:48px">
+                   style="max-width:64px">
             </div>
 
             <div class="pap-app-text">

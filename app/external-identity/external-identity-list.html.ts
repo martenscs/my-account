@@ -34,7 +34,8 @@ export const template = `
             <div class="pap-app-icon">
               <img [src]="getProviderIconUrl(identity.provider)"
                    [alt]="identity.provider.name"
-                   [title]="identity.provider.name">
+                   [title]="identity.provider.name"
+                   style="max-width:64px">
             </div>
 
             <div class="pap-app-text">

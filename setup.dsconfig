@@ -28,6 +28,7 @@ dsconfig create-oauth2-scope \
     --set resource-attribute:name \
     --set resource-attribute:phoneNumbers \
     --set resource-attribute:photoURLs \
+    --set resource-attribute:secondFactorEnabled \
     --set resource-attribute:urn:unboundid:schemas:sample:profile:1.0:birthDate \
     --set resource-attribute:urn:unboundid:schemas:sample:profile:1.0:communicationOpts \
     --set resource-attribute:urn:unboundid:schemas:sample:profile:1.0:contentOpts \
@@ -90,13 +91,51 @@ dsconfig create-oauth2-scope \
     --set resource-operation:retrieve \
     --set resource-operation:delete
 
+dsconfig create-oauth2-scope \
+    --scope-name urn:unboundid:scope:validate_email_address \
+    --type authenticated-identity \
+    --set "description:Validate the user's email address." \
+    --set "consent-prompt-text:Validate your email address." \
+    --set "scim-sub-resource-type:Email Address Validator" \
+    --set 'resource-attribute:*' \
+    --set resource-operation:create \
+    --set resource-operation:modify \
+    --set resource-operation:retrieve \
+    --set resource-operation:search
+
+dsconfig create-oauth2-scope \
+    --scope-name urn:unboundid:scope:validate_phone_number \
+    --type authenticated-identity \
+    --set "description:Validate the user's phone number." \
+    --set "consent-prompt-text:Validate your phone number." \
+    --set "scim-sub-resource-type:Phone Number Validator" \
+    --set 'resource-attribute:*' \
+    --set resource-operation:create \
+    --set resource-operation:modify \
+    --set resource-operation:retrieve \
+    --set resource-operation:search
+
+dsconfig create-oauth2-scope \
+    --scope-name urn:unboundid:scope:manage_totp \
+    --type authenticated-identity \
+    --set "description:Manage the user's TOTP shared secret." \
+    --set "consent-prompt-text:Manage your TOTP shared secret." \
+    --set "scim-sub-resource-type:TOTP Shared Secret" \
+    --set 'resource-attribute:*' \
+    --set resource-operation:create \
+    --set resource-operation:modify \
+    --set resource-operation:retrieve \
+    --set resource-operation:search \
+    --set resource-operation:delete
+
 dsconfig create-permitted-scope \
     --client-name "My Account" \
     --scope-name urn:unboundid:scope:manage_profile
 
 dsconfig create-permitted-scope \
     --client-name "My Account" \
-    --scope-name urn:unboundid:scope:password_quality_requirements
+    --scope-name urn:unboundid:scope:password_quality_requirements \
+    --set consent-required:false
 
 dsconfig create-permitted-scope \
     --client-name "My Account" \
@@ -113,6 +152,21 @@ dsconfig create-permitted-scope \
 dsconfig create-permitted-scope \
     --client-name "My Account" \
     --scope-name urn:unboundid:scope:manage_consents
+
+dsconfig create-permitted-scope \
+    --client-name "My Account" \
+    --scope-name urn:unboundid:scope:validate_email_address \
+    --set consent-required:false
+
+dsconfig create-permitted-scope \
+    --client-name "My Account" \
+    --scope-name urn:unboundid:scope:validate_phone_number \
+    --set consent-required:false
+
+dsconfig create-permitted-scope \
+    --client-name "My Account" \
+    --scope-name urn:unboundid:scope:manage_totp \
+    --set consent-required:false
 
 dsconfig create-web-application-extension \
     --extension-name "My Account" \

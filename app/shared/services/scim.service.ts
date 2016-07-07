@@ -8,9 +8,12 @@ import { Response } from '@angular/http';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/share';
+import 'rxjs/add/observable/empty';
 
-import { AlertService, HttpWrapper, LoadingService, Utility, Profile } from '../index';
+import { AlertService, HttpWrapper, LoadingService, Utility, Profile, VALIDATE_EMAIL_ADDRESS,
+    VALIDATE_PHONE_NUMBER } from '../index';
 
 
 const STORAGE_KEY: any = {
@@ -45,6 +48,15 @@ export class ScimService {
 
   private externalIdentities: BehaviorSubject<any[]> = new BehaviorSubject(undefined);
   private _externalIdentities$: Observable<any> = this.externalIdentities.asObservable();
+
+  private validatedEmailAddress: BehaviorSubject<any> = new BehaviorSubject(undefined);
+  private _validatedEmailAddress$: Observable<any> = this.validatedEmailAddress.asObservable();
+
+  private validatedPhoneNumber: BehaviorSubject<any> = new BehaviorSubject(undefined);
+  private _validatedPhoneNumber$: Observable<any> = this.validatedPhoneNumber.asObservable();
+
+  private totpSharedSecret: BehaviorSubject<any> = new BehaviorSubject(undefined);
+  private _totpSharedSecret$: Observable<any> = this.totpSharedSecret.asObservable();
 
   private criticalError: BehaviorSubject<any> = new BehaviorSubject(undefined);
   private _criticalError$: Observable<any> = this.criticalError.asObservable();
@@ -162,6 +174,30 @@ export class ScimService {
     return this._externalIdentities$;
   }
 
+  get validatedEmailAddress$(): Observable<any[]> {
+    // lazy-load the validated email addresses
+    if (! this.validatedEmailAddress.getValue()) {
+      this.fetchValidatedEmailAddress();
+    }
+    return this._validatedEmailAddress$;
+  }
+
+  get validatedPhoneNumber$(): Observable<any[]> {
+    // lazy-load the validated phone number
+    if (! this.validatedPhoneNumber.getValue()) {
+      this.fetchValidatedPhoneNumber();
+    }
+    return this._validatedPhoneNumber$;
+  }
+
+  get totpSharedSecret$(): Observable<any[]> {
+    // lazy-load the TOTP secret information
+    if (! this.totpSharedSecret.getValue()) {
+      this.fetchTotpSharedSecret();
+    }
+    return this._totpSharedSecret$;
+  }
+
   get criticalError$(): Observable<any> {
     return this._criticalError$;
   }
@@ -170,7 +206,7 @@ export class ScimService {
     var o = this.httpWrapper.get(this.getUrl('Me'));
     o.subscribe((data: any) => this.profile.next(new Profile(data)),
         this.handleError);
-    return o
+    return o;
   }
 
   fetchPasswordQualityRequirements(): Observable<any> {
@@ -192,7 +228,7 @@ export class ScimService {
         },
         this.handleError
     );
-    return o
+    return o;
   }
 
   fetchConsents(): Observable<any[]> {
@@ -206,7 +242,7 @@ export class ScimService {
         },
         this.handleError
     );
-    return o
+    return o;
   }
 
   fetchExternalIdentities(): Observable<any[]> {
@@ -215,10 +251,65 @@ export class ScimService {
         (data: any) => this.externalIdentities.next(data.Resources),
         this.handleError
     );
-    return o
+    return o;
+  }
+
+  fetchValidatedEmailAddress(): Observable<any> {
+    var attributePath = 'emails[type eq \\"other\\"].value';
+    var o = this.httpWrapper.get(this.getUrl('Me/validatedEmailAddresses' +
+        '?filter=attributePath eq "' + attributePath + '"'));
+    o.subscribe(
+        (data: any) => {
+          if (! data.totalResults) {
+            this.alertService.add('validatedEmailAddresses returned no results for attributePath "' + attributePath +
+                '". Verify the Email Validator SCIM Sub Resource Type Handler is configured properly for this sample.');
+            data = undefined;
+          }
+          else {
+            data = this.processRecord(data.Resources[0]);
+          }
+          return this.validatedEmailAddress.next(data);
+        },
+        this.handleError
+    );
+    return o;
+  }
+
+  fetchValidatedPhoneNumber(): Observable<any> {
+    var attributePath = 'phoneNumbers[type eq \\"other\\"].value';
+    var o = this.httpWrapper.get(this.getUrl('Me/validatedPhoneNumbers' +
+        '?filter=attributePath eq "' + attributePath + '"'));
+    o.subscribe(
+        (data: any) => {
+          if (! data.totalResults) {
+            this.alertService.add('validatedPhoneNumbers returned no results for attributePath "' + attributePath +
+                '". Verify the Telephony Validator SCIM Sub Resource Type Handler is configured properly for this ' +
+                'sample.');
+            data = undefined;
+          }
+          else {
+            data = this.processRecord(data.Resources[0]);
+          }
+          return this.validatedPhoneNumber.next(data);
+        },
+        this.handleError
+    );
+    return o;
+  }
+
+  fetchTotpSharedSecret(): Observable<any> {
+    var o = this.httpWrapper.get(this.getUrl('Me/totpSharedSecret'));
+    o.subscribe(
+        (data: any) => this.totpSharedSecret.next(this.processRecord(data)),
+        this.handleError
+    );
+    return o;
   }
 
   updateProfile(profile: Profile): Observable<any> {
+    // ensure the full name attribute is populated from the other name attributes
+    Profile.updateFullName(profile);
+    // update the profile
     var o = this.httpWrapper.put(Profile.getLocation(profile), JSON.stringify(Profile.toScim(profile)));
     o.subscribe((data: any) => this.profile.next(new Profile(data)),
         this.handleError);
@@ -321,6 +412,231 @@ export class ScimService {
     return this.removeSubjectEntry(this.consents, consent);
   }
 
+  toggleSecondFactorEnable(enable: boolean): Observable<any> {
+    var profile = Utility.clone(this.profile.getValue());
+    profile.record.secondFactorEnabled = enable;
+
+    return this.updateProfile(profile);
+  }
+
+  validateEmailAddress(emailAddress: string): Observable<any> {
+    var validatedEmailAddress: any, body:any, o: Observable<any>, profile: Profile;
+
+    validatedEmailAddress = this.validatedEmailAddress.getValue();
+    if (! validatedEmailAddress || ! validatedEmailAddress.attributePath) {
+      this.alertService.add('validatedEmailAddresses or attributePath not found. Verify the Email Validator SCIM Sub ' +
+          'Resource Type Handler is configured properly for this sample.');
+      return Observable.empty();
+    }
+
+    body = {
+      attributePath: validatedEmailAddress.attributePath,
+      attributeValue: emailAddress,
+      messageSubject: VALIDATE_EMAIL_ADDRESS.SUBJECT,
+      messageText: VALIDATE_EMAIL_ADDRESS.TEXT,
+      schemas: validatedEmailAddress.schemas
+    };
+
+    o = this.httpWrapper.post(this.getUrl('Me/validatedEmailAddresses'), JSON.stringify(body));
+    o.subscribe(
+        (data: any) => this.validatedEmailAddress.next(this.processRecord(data)),
+        this.handleError
+    );
+    return o;
+  }
+
+  validateEmailCode(code: string): Observable<any> {
+    var validatedEmailAddress: any, o: Observable<any>;
+
+    validatedEmailAddress = this.validatedEmailAddress.getValue();
+    if (! validatedEmailAddress || ! validatedEmailAddress.attributePath) {
+      this.alertService.add('validatedEmailAddresses or attributePath not found. Verify the Email Validator SCIM Sub ' +
+          'Resource Type Handler is configured properly for this sample.');
+      return Observable.empty();
+    }
+
+    validatedEmailAddress = Utility.clone(validatedEmailAddress);
+    validatedEmailAddress.verifyCode = code;
+
+    o = this.httpWrapper.put(this.getLocation(validatedEmailAddress), JSON.stringify(validatedEmailAddress));
+    o.subscribe(
+        (data: any) => this.validatedEmailAddress.next(this.processRecord(data)),
+        this.handleError
+    );
+
+    return o;
+  }
+
+  removeValidatedEmailAddress(disableSecondFactor: boolean): Observable<any> {
+    var profile: Profile, o: Observable<any>;
+
+    // clear the second factor email attribute
+    profile = Utility.clone(this.profile.getValue());
+    Profile.removeValueOfType(profile.record.emails, 'other');
+    o = this.updateProfile(profile);
+
+    // disable second factor if necessary
+    if (disableSecondFactor) {
+      o = o.flatMap(() => this.toggleSecondFactorEnable(! disableSecondFactor)).share();  
+    }
+
+    // update the validated email record
+    o.subscribe(
+        () => this.fetchValidatedEmailAddress(),
+        () => {}
+    );
+
+    return o;
+  }
+
+  validateTelephony(phoneNumber: string, messagingProvider: string): Observable<any> {
+    var validatedPhoneNumber: any, body:any, o: Observable<any>, profile: Profile;
+
+    validatedPhoneNumber = this.validatedPhoneNumber.getValue();
+    if (! validatedPhoneNumber || ! validatedPhoneNumber.attributePath) {
+      this.alertService.add('validatedPhoneNumber or attributePath not found. Verify the Telephony Validator SCIM ' +
+          'Sub Resource Type Handler is configured properly for this sample.');
+      return Observable.empty();
+    }
+
+    body = {
+      attributePath: validatedPhoneNumber.attributePath,
+      attributeValue: phoneNumber,
+      message: VALIDATE_PHONE_NUMBER.MESSAGE,
+      messagingProvider: messagingProvider,
+      schemas: validatedPhoneNumber.schemas
+    };
+
+    o = this.httpWrapper.post(this.getUrl('Me/validatedPhoneNumbers'), JSON.stringify(body));
+    o.subscribe(
+        (data: any) => this.validatedPhoneNumber.next(this.processRecord(data)),
+        this.handleError
+    );
+    return o;
+  }
+
+  validateTelephonyCode(code: string): Observable<any> {
+    var validatedPhoneNumber: any, o: Observable<any>;
+
+    validatedPhoneNumber = this.validatedPhoneNumber.getValue();
+    if (! validatedPhoneNumber || ! validatedPhoneNumber.attributePath) {
+      this.alertService.add('validatedPhoneNumber or attributePath not found. Verify the Telephony Validator SCIM ' +
+          'Sub Resource Type Handler is configured properly for this sample.');
+      return Observable.empty();
+    }
+
+    validatedPhoneNumber = Utility.clone(validatedPhoneNumber);
+    validatedPhoneNumber.verifyCode = code;
+
+    o = this.httpWrapper.put(this.getLocation(validatedPhoneNumber), JSON.stringify(validatedPhoneNumber));
+    o.subscribe(
+        (data: any) => this.validatedPhoneNumber.next(this.processRecord(data)),
+        this.handleError
+    );
+
+    return o;
+  }
+
+  removeValidatedPhoneNumber(disableSecondFactor: boolean): Observable<any> {
+    var profile: Profile, o: Observable<any>;
+
+    // clear the second factor phone attribute
+    profile = Utility.clone(this.profile.getValue());
+    Profile.removeValueOfType(profile.record.phoneNumbers, 'other');
+    o = this.updateProfile(profile);
+
+    // disable second factor if necessary
+    if (disableSecondFactor) {
+      o = o.flatMap(() => this.toggleSecondFactorEnable(! disableSecondFactor)).share();
+    }
+    
+    // update the validated phone record
+    o.subscribe(
+        () => this.fetchValidatedPhoneNumber(),
+        () => {}
+    );
+
+    return o;
+  }
+
+  createTotpSharedSecret(): Observable<any> {
+    var totpSharedSecret: any, request: any, o: Observable<any>;
+
+    totpSharedSecret = this.totpSharedSecret.getValue();
+    if (! totpSharedSecret) {
+      this.alertService.add('totpSharedSecret not found. Verify the TOTP Shared Secret SCIM Sub Resource Type ' +
+          'Handler is configured properly for this sample.');
+      return Observable.empty();
+    }
+
+    request = {
+      schemas: totpSharedSecret.schemas
+    };
+
+    o = this.httpWrapper.post(this.getLocation(totpSharedSecret), JSON.stringify(request));
+    o.subscribe(
+        (data: any) => this.totpSharedSecret.next(this.processRecord(data)),
+        this.handleError
+    );
+    return o;
+  }
+
+  validateTotp(totp: string): Observable<any> {
+    var totpSharedSecret: any, o: Observable<any>;
+
+    totpSharedSecret = this.totpSharedSecret.getValue();
+    if (! totpSharedSecret || ! totpSharedSecret.sharedSecret) {
+      this.alertService.add('totpSharedSecret or sharedSecret not found. Verify the TOTP Shared Secret SCIM Sub ' +
+          'Resource Type Handler is configured properly for this sample.');
+      return Observable.empty();
+    }
+
+    totpSharedSecret = Utility.clone(totpSharedSecret);
+    totpSharedSecret.verifyTotp = totp;
+
+    o = this.httpWrapper.put(this.getLocation(totpSharedSecret), JSON.stringify(totpSharedSecret));
+    o.subscribe(
+        (data: any) => this.totpSharedSecret.next(this.processRecord(data)),
+        (err: any) => {
+          var error: any;
+          // provide a friendly error message if the error is due to incorrect code
+          if (totp && err.status === 400) {
+            error = HttpWrapper.parseResponse(err);
+            if (error && error.scimType === 'invalidValue') {
+              err = 'The verify code is incorrect.';
+            }
+          }
+          return this.handleError(err);
+        }
+    );
+    return o;
+  }
+
+  removeTotpSharedSecret(disableSecondFactor: boolean): Observable<any> {
+    var totpSharedSecret: any, o: Observable<any>;
+
+    totpSharedSecret = this.totpSharedSecret.getValue();
+    if (! totpSharedSecret) {
+      this.alertService.add('totpSharedSecret not found. Verify the TOTP Shared Secret SCIM Sub Resource Type ' +
+          'Handler is configured properly for this sample.');
+      return Observable.empty();
+    }
+
+    o = this.httpWrapper.delete(this.getLocation(totpSharedSecret));
+
+    // disable second factor if necessary
+    if (disableSecondFactor) {
+      o = o.flatMap(() => this.toggleSecondFactorEnable(! disableSecondFactor)).share();
+    }
+
+    o.subscribe(
+        () => this.fetchTotpSharedSecret(),
+        this.handleError
+    );
+
+    return o;
+  }
+
   getDefaultProviderIconUrl(provider: any): string {
     if (provider.iconUrl) {
       return provider.iconUrl;
@@ -369,7 +685,11 @@ export class ScimService {
 
     // is it a response object?
     error = HttpWrapper.parseResponse(error);
-    if (error.detail) {
+    if (error instanceof ProgressEvent) {
+      obj.message = "A ProgressEvent error occurred. An administrator should verify the Data Broker CORS " +
+          "configuration.";
+    }
+    else if (error.detail) {
       message = error.detail;
       if (error.scimType || error.status) {
         message += ' (';

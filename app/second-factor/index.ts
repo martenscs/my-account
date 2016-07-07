@@ -1,0 +1,6 @@
+export * from './email-edit.component'
+export * from './telephony-edit.component'
+export * from './qr-code.component'
+export * from './totp-edit.component'
+export * from './second-factor-view.component'
+export * from './second-factor.component'

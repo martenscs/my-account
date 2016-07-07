@@ -11,7 +11,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/share';
 
 
-import { Configuration, IDENTITY_PROVIDER_URL, RESOURCE_SERVER_URL, CLIENT_REDIRECT_URL, CLIENT_ID, SCOPES,
+import { Configuration, IDENTITY_PROVIDER_URL, RESOURCE_SERVER_URL, CLIENT_REDIRECT_URL, CLIENT_ID, SCOPES, ACR_VALUES,
           LoadingService } from '../index';
 
 
@@ -111,6 +111,7 @@ export class HttpWrapper {
         'client_id=' + encodeURIComponent(CLIENT_ID) + '&' +
         'redirect_uri=' + encodeURIComponent(CLIENT_REDIRECT_URL) + '&' +
         'scope=' + encodeURIComponent(SCOPES) + '&' +
+        'acr_values=' + encodeURIComponent(ACR_VALUES) + '&' +
         'state=' + state;
   }
 

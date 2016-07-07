@@ -23,7 +23,29 @@ export const SCOPES = 'urn:unboundid:scope:manage_profile ' +
     'urn:unboundid:scope:change_password ' +
     'urn:unboundid:scope:manage_external_identities ' +
     'urn:unboundid:scope:manage_sessions ' +
-    'urn:unboundid:scope:manage_consents';
+    'urn:unboundid:scope:manage_consents ' +
+    'urn:unboundid:scope:validate_email_address ' +
+    'urn:unboundid:scope:validate_phone_number ' +
+    'urn:unboundid:scope:manage_totp';
+
+export const ACR_VALUES = 'MFA ' +
+    'Default';
+
+export const VALIDATE_EMAIL_ADDRESS: any = {
+  SUBJECT: 'UnboundID Data Broker Verify Code',
+  TEXT: 'Your delivery address verify code is %code%'
+};
+
+export const VALIDATE_PHONE_NUMBER: any = {
+  MESSAGE: {
+    message: 'UnboundID Data Broker Verify Code: %code%',
+    language: 'en-US'
+  },
+  MESSAGING_PROVIDERS: {
+    SMS: 'Twilio SMS Provider',
+    VOICE: 'Twilio Voice Provider'
+  }
+};
 
 
 @Injectable()

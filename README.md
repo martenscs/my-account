@@ -29,22 +29,46 @@ Data Broker sample UI for self-service account management
    My Account OAuth2 Client's Redirect URLs list.
 7. Use dsconfig or the Management Console application to edit the HTTP Servlet Cross Origin Policy configuration to
    allow for cross-domain AJAX requests to the Data Broker's SCIM2 HTTP Servlet Extension. The sample application's
-   origin and the Data Broker's origin should be added to "cors-allowed-origins", "authorization" should
-   be added to "cors-allowed-headers", and "DELETE", "PUT" and "POST" should be added to "cors-allowed-methods".
+   origin and the Data Broker's origin should be added to "cors-allowed-origins", and "GET", "DELETE", "POST" and "PUT"
+   should be added to "cors-allowed-methods". E.g.,
+
+   dsconfig create-http-servlet-cross-origin-policy --policy-name my-account \
+       --set cors-allowed-origins:http://localhost:3004 --set cors-allowed-origins:https://localhost:8445 \
+       --set cors-allowed-methods:GET --set cors-allowed-methods:DELETE --set cors-allowed-methods:POST \
+       --set cors-allowed-methods:PUT
+
+   dsconfig set-http-servlet-extension-prop --extension-name SCIM2 --set cross-origin-policy:my-account
+
 8. Access the sample at your servlet container's address and the appropriate context.
 
 
 ### Scopes
 
-The sample's default configuration depends on the urn:unboundid:scope:manage_account scope that is created by the
-setup.dsconfig file.
+The sample's default configuration depends on scopes that are created by the setup.dsconfig file:
 
-This scope allows the full management of the user's account, including reading and modifying profile attributes,
-reading and revoking consent records, resetting their password, etc.
+1. `urn:unboundid:scope:manage_profile`
+   Allows reading and modifying the user's profile attributes.
+   This scope is configured with resource attributes that are defined by the Data Broker's reference app schema.
+2. `urn:unboundid:scope:password_quality_requirements`
+   Allows reading the user's account password quality requirements.
+3. `urn:unboundid:scope:change_password`
+   Allows resetting the user's password.
+4. `urn:unboundid:scope:manage_external_identities`
+   Allows reading and removing user's external identity provider account links.
+5. `urn:unboundid:scope:manage_sessions`
+   Allows reading and removing the user's active sessions.
+6. `urn:unboundid:scope:manage_consents`
+   Allows reading and revoking the user's consent records.
+7. `urn:unboundid:scope:validate_email_address`
+   Allows validating the user's email address. (no consent required for this client)
+8. `urn:unboundid:scope:validate_phone_number`
+   Allows validating the user's phone number. (no consent required for this client)
+9. `urn:unboundid:scope:manage_totp`
+   Allows managing the user's TOTP secret. (no consent required for this client)
 
-This scope is configured with resource attributes that are defined by the Data Broker's reference app schema.  If
-another schema is used this scope will need to be re-configured (see the "Customization" section for additional
-details).
+As noted above the `urn:unboundid:scope:manage_profile` scope is configured with resource attributes that are defined
+by the Data Broker's reference app schema.  If another schema is used this scope will need to be re-configured (see the
+"Customization" section for additional details).
 
 
 ### Customization
@@ -54,7 +78,8 @@ recommended to edit the contents of the packaged war file directly).  The source
 my-account-source.tar.gz file within the my-account.tar.gz file.
 
 The build process requires node and npm to be installed on the development machine
-(https://docs.npmjs.com/getting-started/installing-node).
+(https://docs.npmjs.com/getting-started/installing-node).  This project was verified to work with node v6.2.2 and
+npm v3.10.2, but there are not currently any known version compatibility issues.
 
 Once node and npm are installed, the project's dependencies can be installed by running "npm install" within the source
 directory.
@@ -65,6 +90,18 @@ environment, and "test" for running the referenced jasmine test spec files withi
 The scripts assume a UNIX-based operating system.  They will need to be modified if you are using a Windows development
 environment.
 
+If you wish to run the application in the development environment ("npm run dev"), some additional configuration will be
+required:
+
+1. The dev server's redirect URL will need to be added to the OAuth2 Client configuration via dsconfig or the Management
+   Console (see the commented out command in setup.dsconfig).
+2. The `IDENTITY_PROVIDER_URL` and `RESOURCE_SERVER_URL` constants in app/app.config.ts will need to be updated to use
+   absolute URLs since the application will be running in the development environment rather than the Data Broker
+   (see the commented out example override values in app/app.config.ts).
+3. The dev server's origin (http://localhost:3004) will need to be added to the HTTP Servlet Cross Origin Policy
+   configuration to allow for cross-domain AJAX requests to the Data Broker's SCIM2 HTTP Servlet Extension (see step 7
+   in the "Advanced Deployment" section above).
+
 When ready to deploy a customization, run "npm run prod" from the command-line to rebuild the project and package it
 into a war file.
 
@@ -74,43 +111,49 @@ and/or the server are restarted).
 
 Several configuration values are defined in the app/app.config.ts file for easy customization.  The configuration values
 can be found near the top of the script (search for the "export" statements). Values include:
-1. IDENTITY_PROVIDER_URL
+1. `IDENTITY_PROVIDER_URL`
    The URI of the Data Broker's OAuth connection handler.  A value like "https://1.2.3.4:8443" should be used.
-2. RESOURCE_SERVER_URL
+2. `RESOURCE_SERVER_URL`
    The URI of the Data Broker's SCIM connection handler.  A value like "https://1.2.3.4:8443" should be used.
-3. CLIENT_REDIRECT_URL
+3. `CLIENT_REDIRECT_URL`
    The redirect URI for the client in the OAuth flow.  This should be the address used to view the sample, and
    should be one of the Redirect URLs configured for the sample OAuth2 Client in the Data Broker.  A value like
    "https://1.2.3.4:8443/samples/my-account/" should be used.
-4. CLIENT_ID
+4. `CLIENT_ID`
    The Client ID assigned to the My Account OAuth2 Client in the Data Broker configuration.  This is set to a known
    value by the setup configuration script and should not typically need to be changed.
 5. SCOPES
-   The Scopes requested by the sample.  A space-separated value like "openid urn:unboundid:scope:manage_account"
-   should be used.
+   The Scopes requested by the sample.  A space-separated value like "scope1 scope2 scope3" should be used.
+6. `ACR_VALUES`
+   The ACR values the client requests in order of preference.  A space-separated value like "MFA Default" should be
+   used.
+7. `VALIDATE_EMAIL_ADDRESS`
+   The validation messages used when validating the email address for second factor.
+8. `VALIDATE_PHONE_NUMBER`
+   The validation message and providers used when validating the phone number for second factor.
 
 Changes such as using a schema other than the Data Broker's reference app schema will require more extensive
 customization of the sample's files and configuration.  This includes modifying the application files as well as
-updating the configuration of the scope's resource attributes.
+updating the configuration of the scopes' resource attributes.
 
 
 ### Known issues
 
 1. Google Chrome prior to version 34 had an issue that would cancel ORIGIN requests with headers.  If using
-Google Chrome, make sure you are running version 34 or greater with the sample.  Please see the following issue reports
-for additional information:
+   Google Chrome, make sure you are running version 34 or greater with the sample.  Please see this issue report for
+   additional information:
 
-    https://code.google.com/p/chromium/issues/detail?id=96007
-    http://bugs.jquery.com/ticket/12698
+   https://code.google.com/p/chromium/issues/detail?id=96007
 
 2. This sample uses the OAuth 2 implicit grant for retrieving access tokens, and sessionStorage for temporarily
-persisting data for use by client scripts in the browser.  You should not do the same in your own applications without
-considering the security implications of this approach.  When using the implicit grant, the access tokens are exposed to
-the user and potentially other applications with access to the user's browser.  Additionally, sessionStorage is scoped
-per origin and window/tab, which makes it accessible to other applications running on the same server and port (Data
-Broker connection handler) loaded in the same tab.  An alternate approach would be to use the OAuth 2 authentication
-code grant, which would keep the access token on the server so that it would not be exposed to the user or stored in the
-browser.  Please see the following specifications for additional information on this issue:
+   persisting data for use by client scripts in the browser.  You should not do the same in your own applications
+   without considering the security implications of this approach.  When using the implicit grant, the access tokens are
+   exposed to the user and potentially other applications with access to the user's browser.  Additionally,
+   sessionStorage is scoped per origin and window/tab, which makes it accessible to other applications running on the
+   same server and port (Data Broker connection handler) loaded in the same tab.  An alternate approach would be to use
+   the OAuth 2 authentication code grant, which would keep the access token on the server so that it would not be
+   exposed to the user or stored in the browser.  Please see the following specifications for additional information on
+   this issue:
 
-    http://tools.ietf.org/html/rfc6749#section-1.3.2
-    http://dev.w3.org/html5/webstorage/#the-sessionstorage-attribute
+   http://tools.ietf.org/html/rfc6749#section-1.3.2
+   https://html.spec.whatwg.org/multipage/webstorage.html#the-sessionstorage-attribute

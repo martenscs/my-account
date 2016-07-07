@@ -111,6 +111,12 @@ export class Profile {
         undefined;
   }
 
+  static updateFullName(profile: Profile) {
+    if (profile && profile.record && profile.record.name) {
+      profile.record.name.formatted = Profile.buildFullName(profile.record);
+    }
+  }
+
   private static buildFullName(record: any): string {
     var output = '';
     if (record) {
@@ -323,7 +329,7 @@ export class Profile {
     return value;
   }
 
-  private static removeValueOfType(values: any, type: string) {
+  public static removeValueOfType(values: any, type: string) {
     var index = (values || []).findIndex((val: any) => val.type === type);
     if (index >= 0) {
       values.splice(index, 1);

@@ -34,7 +34,9 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // clear the alerts on route change
     this.routeSubscription = this.router.events.subscribe((event:Event) => {
-      if (event instanceof NavigationStart) {
+      // don't clear alerts on the initial navigation events - the only alerts present then are generated during
+      // initialization...
+      if (event instanceof NavigationStart && (! event.id || event.id > 2)) {
         this.alertService.clear();
       }
     });

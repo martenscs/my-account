@@ -16,6 +16,12 @@ export const template = `
   <p class="blurb">Edit your profile information or change your password.</p>
 </a>
 
+<a [routerLink]="['/second-factor']"
+   class="account-section">
+  <div class="title">Second Factor Authentication</div>
+  <p class="blurb">Enable or disable second factor authentication and configure verification methods.</p>
+</a>
+
 <a [routerLink]="['/external-identity']"
    class="account-section">
   <div class="title">Linked Accounts</div>

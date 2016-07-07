@@ -8,6 +8,7 @@ import { provideRouter, RouterConfig } from '@angular/router';
 import { PROFILE_ROUTES } from './profile/profile.routes';
 import { CONSENT_ROUTES } from './consent/consent.routes';
 import { PREFERENCE_ROUTES } from './preference/preference.routes';
+import { SECOND_FACTOR_ROUTES } from './second-factor/second-factor.routes';
 
 import { IndexComponent } from './index/index';
 import { ExternalIdentityListComponent } from './external-identity/index';
@@ -18,6 +19,7 @@ export const ROUTES: RouterConfig = [
   ...PROFILE_ROUTES,
   ...CONSENT_ROUTES,
   ...PREFERENCE_ROUTES,
+  ...SECOND_FACTOR_ROUTES,
   { path: '', component: IndexComponent },
   { path: 'external-identity', component: ExternalIdentityListComponent },
   { path: 'session', component: SessionListComponent },
