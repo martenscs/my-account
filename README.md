@@ -111,6 +111,7 @@ and/or the server are restarted).
 
 Several configuration values are defined in the app/app.config.ts file for easy customization.  The configuration values
 can be found near the top of the script (search for the "export" statements). Values include:
+
 1. `IDENTITY_PROVIDER_URL`
    The URI of the Data Broker's OAuth connection handler.  A value like "https://1.2.3.4:8443" should be used.
 2. `RESOURCE_SERVER_URL`
@@ -122,7 +123,7 @@ can be found near the top of the script (search for the "export" statements). Va
 4. `CLIENT_ID`
    The Client ID assigned to the My Account OAuth2 Client in the Data Broker configuration.  This is set to a known
    value by the setup configuration script and should not typically need to be changed.
-5. SCOPES
+5. `SCOPES`
    The Scopes requested by the sample.  A space-separated value like "scope1 scope2 scope3" should be used.
 6. `ACR_VALUES`
    The ACR values the client requests in order of preference.  A space-separated value like "MFA Default" should be

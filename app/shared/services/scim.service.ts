@@ -210,7 +210,7 @@ export class ScimService {
   }
 
   fetchPasswordQualityRequirements(): Observable<any> {
-    var o = this.httpWrapper.get(this.getUrl('Me/passwordQualityRequirement'));
+    var o = this.httpWrapper.get(this.getUrl('Me/passwordQualityRequirements'));
     o.subscribe((data: any) => this.passwordQualityRequirements.next(data),
         this.handleError);
     return o;
