@@ -420,7 +420,7 @@ export class ScimService {
   }
 
   validateEmailAddress(emailAddress: string): Observable<any> {
-    var validatedEmailAddress: any, body:any, o: Observable<any>, profile: Profile;
+    var validatedEmailAddress: any, body:any, o: Observable<any>;
 
     validatedEmailAddress = this.validatedEmailAddress.getValue();
     if (! validatedEmailAddress || ! validatedEmailAddress.attributePath) {
@@ -460,7 +460,13 @@ export class ScimService {
 
     o = this.httpWrapper.put(this.getLocation(validatedEmailAddress), JSON.stringify(validatedEmailAddress));
     o.subscribe(
-        (data: any) => this.validatedEmailAddress.next(this.processRecord(data)),
+        (data: any) => {
+          // store the validated address information
+          this.validatedEmailAddress.next(this.processRecord(data));
+
+          // refresh our profile attributes to pickup the address in case it was updated
+          this.fetchProfile();
+        },
         this.handleError
     );
 
@@ -490,7 +496,7 @@ export class ScimService {
   }
 
   validateTelephony(phoneNumber: string, messagingProvider: string): Observable<any> {
-    var validatedPhoneNumber: any, body:any, o: Observable<any>, profile: Profile;
+    var validatedPhoneNumber: any, body:any, o: Observable<any>;
 
     validatedPhoneNumber = this.validatedPhoneNumber.getValue();
     if (! validatedPhoneNumber || ! validatedPhoneNumber.attributePath) {
@@ -530,7 +536,13 @@ export class ScimService {
 
     o = this.httpWrapper.put(this.getLocation(validatedPhoneNumber), JSON.stringify(validatedPhoneNumber));
     o.subscribe(
-        (data: any) => this.validatedPhoneNumber.next(this.processRecord(data)),
+        (data: any) => {
+          // store the validated number information
+          this.validatedPhoneNumber.next(this.processRecord(data));
+
+          // refresh our profile attributes to pickup the number in case it was updated
+          this.fetchProfile();
+        },
         this.handleError
     );
 
