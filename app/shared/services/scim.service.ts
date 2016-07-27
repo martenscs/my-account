@@ -369,10 +369,14 @@ export class ScimService {
 
   linkExternalIdentity(externalIdentity: any) : Observable<any> {
     var data: any = {
-      callbackUrl: this.httpWrapper.getUrl('callback.html')
+      callbackUrl: this.httpWrapper.getUrl('callback.html'),
+      provider: {
+        name: externalIdentity.provider.name
+      },
+      schemas: externalIdentity.schemas
     };
 
-    var o = this.httpWrapper.put(this.getLocation(externalIdentity), JSON.stringify(data));
+    var o = this.httpWrapper.post(this.getUrl('Me/externalIdentities'), JSON.stringify(data));
     o.subscribe(
           (data: any) => {
             // store the flow state and access token for when we return

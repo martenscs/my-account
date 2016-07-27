@@ -66,6 +66,7 @@ dsconfig create-oauth2-scope \
     --set "resource-attribute:*" \
     --set resource-operation:search \
     --set resource-operation:retrieve \
+    --set resource-operation:create \
     --set resource-operation:modify \
     --set resource-operation:delete
 
