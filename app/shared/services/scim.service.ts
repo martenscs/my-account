@@ -64,7 +64,7 @@ export class ScimService {
   private handleError = (err: Response) => {
     var error: any = this.formatError(err);
     // is it a critical error?
-    if (error.details === '401') {
+    if (error.details === '401' || error.details === 'ProgressEvent') {
       this.error = error;
       this.criticalError.next(this.error);
     }
@@ -702,8 +702,9 @@ export class ScimService {
     // is it a response object?
     error = HttpWrapper.parseResponse(error);
     if (error instanceof ProgressEvent) {
-      obj.message = "A ProgressEvent error occurred. An administrator should verify the Data Broker CORS " +
-          "configuration.";
+      obj.message = 'Close the browser and reload the application. If you continue to see this error, an ' +
+          'administrator should verify the Data Broker CORS configuration.';
+      obj.details = 'ProgressEvent';
     }
     else if (error.detail) {
       message = error.detail;
