@@ -52,7 +52,10 @@ export class TotpEditComponent implements OnInit {
                 this.router.navigate(['/second-factor']);
               }
             },
-            () => {}
+            () => {
+              // clear the totp field on error
+              this.totp = '';
+            }
         );
   }
 }

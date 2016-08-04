@@ -58,6 +58,7 @@ export class TelephonyEditComponent implements OnInit {
               if (data.attributeValue) {
                 // we have a validated phone number - use it
                 this.phoneNumber = data.attributeValue;
+                this.messagingProvider = data.messagingProvider;
               }
               else {
                 // we don't have a validated phone number - use the one from the profile, if any
@@ -89,7 +90,10 @@ export class TelephonyEditComponent implements OnInit {
                 this.router.navigate(['/second-factor']);
               }
             },
-            () => {}
+            () => {
+              // clear the code field on error
+              this.code = '';
+            }
         );
   }
 

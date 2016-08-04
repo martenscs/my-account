@@ -75,7 +75,10 @@ export class EmailEditComponent implements OnInit {
                 this.router.navigate(['/second-factor']);
               }
             },
-            () => {}
+            () => {
+              // clear the code field on error
+              this.code = '';
+            }
         );
   }
 }
