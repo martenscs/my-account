@@ -44,7 +44,7 @@ export class CommunicationContentEditComponent implements OnInit, OnDestroy  {
   }
 
   submit() {
-    this.scimService.updateProfile(this.profile)
+    this.scimService.updateProfile(this.profile, true) // updateCommunicationContentOptions
         .subscribe(
         () => this.router.navigate(['/preference']),
         () => {}

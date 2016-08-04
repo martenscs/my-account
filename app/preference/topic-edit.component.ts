@@ -44,7 +44,9 @@ export class TopicEditComponent implements OnInit, OnDestroy  {
   }
 
   submit() {
-    this.scimService.updateProfile(this.profile)
+    this.scimService.updateProfile(this.profile,
+        false, // updateCommunicationContentOptions
+        true) // updateTopicPreferences
         .subscribe(
           () => this.router.navigate(['/preference']),
           () => {}

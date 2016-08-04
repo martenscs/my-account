@@ -306,11 +306,14 @@ export class ScimService {
     return o;
   }
 
-  updateProfile(profile: Profile): Observable<any> {
+  updateProfile(profile: Profile,
+                updateCommunicationContentOptions = false,
+                updateTopicPreferences = false): Observable<any> {
     // ensure the full name attribute is populated from the other name attributes
     Profile.updateFullName(profile);
     // update the profile
-    var o = this.httpWrapper.put(Profile.getLocation(profile), JSON.stringify(Profile.toScim(profile)));
+    var o = this.httpWrapper.put(Profile.getLocation(profile), JSON.stringify(Profile.toScim(profile,
+        updateCommunicationContentOptions, updateTopicPreferences)));
     o.subscribe((data: any) => this.profile.next(new Profile(data)),
         this.handleError);
     return o;

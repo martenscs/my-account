@@ -55,7 +55,9 @@ export class Profile {
     this.topicPreferences = Profile.buildTopicPreferences(record);
   }
 
-  static toScim(profile: Profile): any {
+  static toScim(profile: Profile,
+                updateCommunicationContentOptions = false,
+                updateTopicPreferences = false): any {
     var record = Utility.clone(profile.record);
 
     // ensure the record's schema list includes the extension schema
@@ -97,10 +99,14 @@ export class Profile {
     }
 
     // update the communication and content options appropriately
-    Profile.storeCommunicationContentOptions(record, profile.communicationContentOptions);
+    if (updateCommunicationContentOptions) {
+      Profile.storeCommunicationContentOptions(record, profile.communicationContentOptions);
+    }
 
     // update the topic preferences appropriately
-    Profile.storeTopicPreferences(record, profile.topicPreferences);
+    if (updateTopicPreferences) {
+      Profile.storeTopicPreferences(record, profile.topicPreferences);
+    }
 
     return record;
   }
