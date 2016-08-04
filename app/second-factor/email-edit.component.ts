@@ -29,7 +29,7 @@ export class EmailEditComponent implements OnInit {
 
   @Input()
   set emailAddress(value: string) {
-    this._emailAddress = value;
+    this._emailAddress = value ? value.trim() : value;
 
     // make them re-validate the address
     this.showCode = false;

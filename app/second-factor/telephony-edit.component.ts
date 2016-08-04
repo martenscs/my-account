@@ -32,7 +32,7 @@ export class TelephonyEditComponent implements OnInit {
 
   @Input()
   set phoneNumber(value: string) {
-    this._phoneNumber = value;
+    this._phoneNumber = value ? value.trim() : value;
 
     // make them re-validate the address
     this.resetCode();
@@ -46,7 +46,7 @@ export class TelephonyEditComponent implements OnInit {
   set messagingProvider(value: string) {
     this._messagingProvider = value;
 
-    // make them re-validate the address
+    // make them re-validate the number
     this.resetCode();
   }
 
@@ -57,13 +57,13 @@ export class TelephonyEditComponent implements OnInit {
             (data: any) => {
               if (data.attributeValue) {
                 // we have a validated phone number - use it
-                this._phoneNumber = data.attributeValue;
+                this.phoneNumber = data.attributeValue;
               }
               else {
                 // we don't have a validated phone number - use the one from the profile, if any
                 this.scimService.profile$
                     .subscribe(
-                        (profile: Profile) => this._phoneNumber = profile.phone,
+                        (profile: Profile) => this.phoneNumber = profile.phone,
                         () => {}
                     ).unsubscribe();
               }
