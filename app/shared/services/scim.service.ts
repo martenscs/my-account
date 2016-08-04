@@ -255,7 +255,7 @@ export class ScimService {
   }
 
   fetchValidatedEmailAddress(): Observable<any> {
-    var attributePath = 'emails[type eq \\"other\\"].value';
+    var attributePath = 'secondFactorEmail';
     var o = this.httpWrapper.get(this.getUrl('Me/validatedEmailAddresses' +
         '?filter=attributePath eq "' + attributePath + '"'));
     o.subscribe(
@@ -276,7 +276,7 @@ export class ScimService {
   }
 
   fetchValidatedPhoneNumber(): Observable<any> {
-    var attributePath = 'phoneNumbers[type eq \\"other\\"].value';
+    var attributePath = 'secondFactorPhoneNumber';
     var o = this.httpWrapper.get(this.getUrl('Me/validatedPhoneNumbers' +
         '?filter=attributePath eq "' + attributePath + '"'));
     o.subscribe(
@@ -485,7 +485,7 @@ export class ScimService {
 
     // clear the second factor email attribute
     profile = Utility.clone(this.profile.getValue());
-    Profile.removeValueOfType(profile.record.emails, 'other');
+    profile.record.secondFactorEmail = null;
     o = this.updateProfile(profile);
 
     // disable second factor if necessary
@@ -561,7 +561,7 @@ export class ScimService {
 
     // clear the second factor phone attribute
     profile = Utility.clone(this.profile.getValue());
-    Profile.removeValueOfType(profile.record.phoneNumbers, 'other');
+    profile.record.secondFactorPhoneNumber = null;
     o = this.updateProfile(profile);
 
     // disable second factor if necessary

@@ -29,6 +29,8 @@ dsconfig create-oauth2-scope \
     --set resource-attribute:phoneNumbers \
     --set resource-attribute:photoURLs \
     --set resource-attribute:secondFactorEnabled \
+    --set resource-attribute:secondFactorEmail \
+    --set resource-attribute:secondFactorPhoneNumber \
     --set resource-attribute:urn:unboundid:schemas:sample:profile:1.0:birthDate \
     --set resource-attribute:urn:unboundid:schemas:sample:profile:1.0:communicationOpts \
     --set resource-attribute:urn:unboundid:schemas:sample:profile:1.0:contentOpts \

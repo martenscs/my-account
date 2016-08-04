@@ -335,7 +335,7 @@ export class Profile {
     return value;
   }
 
-  public static removeValueOfType(values: any, type: string) {
+  private static removeValueOfType(values: any, type: string) {
     var index = (values || []).findIndex((val: any) => val.type === type);
     if (index >= 0) {
       values.splice(index, 1);
