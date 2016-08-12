@@ -10,7 +10,9 @@ dsconfig create-oauth2-client \
     --set "client-id:@my-account@" \
     --set grant-type:implicit \
     --set url:/samples/my-account \
-    --set redirect-url:/samples/my-account/callback.html
+    --set redirect-url:/samples/my-account/callback.html \
+    --set permitted-acr:MFA \
+    --set permitted-acr:Default
 
 # Uncomment the following command to add a redirect URL for running the sample via "npm run dev" with the default
 # configuration

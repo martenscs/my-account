@@ -106,13 +106,16 @@ export class HttpWrapper {
   }
 
   public getAuthorizeUrl(state: number): string {
-    return this.buildUrl(IDENTITY_PROVIDER_URL, 'oauth/authorize') + '?' +
+    var url = this.buildUrl(IDENTITY_PROVIDER_URL, 'oauth/authorize') + '?' +
         'response_type=' + encodeURIComponent('token') + '&' +
         'client_id=' + encodeURIComponent(CLIENT_ID) + '&' +
         'redirect_uri=' + encodeURIComponent(CLIENT_REDIRECT_URL) + '&' +
         'scope=' + encodeURIComponent(SCOPES) + '&' +
-        'acr_values=' + encodeURIComponent(ACR_VALUES) + '&' +
         'state=' + state;
+    if (ACR_VALUES) {
+      url += '&acr_values=' + encodeURIComponent(ACR_VALUES);
+    }
+    return url;
   }
 
   public getLogoutUrl(): string {

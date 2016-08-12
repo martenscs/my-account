@@ -126,8 +126,9 @@ can be found near the top of the script (search for the "export" statements). Va
 5. `SCOPES`
    The Scopes requested by the sample.  A space-separated value like "scope1 scope2 scope3" should be used.
 6. `ACR_VALUES`
-   The ACR values the client requests in order of preference.  A space-separated value like "MFA Default" should be
-   used.
+   The ACR values the client will explicitly request in order of preference.  If this value is left empty the client
+   will not specify ACR values which will cause the defaults configured for it in the Data Broker to be used.
+   Otherwise, a space-separated value like "MFA Default" should be used.
 7. `VALIDATE_EMAIL_ADDRESS`
    The validation messages used when validating the email address for second factor.
 8. `VALIDATE_PHONE_NUMBER`

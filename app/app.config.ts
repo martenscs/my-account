@@ -28,8 +28,7 @@ export const SCOPES = 'urn:unboundid:scope:manage_profile ' +
     'urn:unboundid:scope:validate_phone_number ' +
     'urn:unboundid:scope:manage_totp';
 
-export const ACR_VALUES = 'MFA ' +
-    'Default';
+export const ACR_VALUES = ''; // if no values are specified the defaults will be used
 
 export const VALIDATE_EMAIL_ADDRESS: any = {
   SUBJECT: 'UnboundID Data Broker Verify Code',
