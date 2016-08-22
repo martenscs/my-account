@@ -37,7 +37,7 @@ export const template = `
           You added the following interest<span *ngIf="selectedTopicPreferences.length > 1">s</span>:
         </p>
         <div class="well well-sm">
-          <ul>
+          <ul class="mbn">
             <li *ngFor="let preference of selectedTopicPreferences">{{ preference.label }}</li>
           </ul>
         </div>

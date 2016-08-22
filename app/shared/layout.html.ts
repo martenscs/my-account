@@ -4,8 +4,8 @@ export const template = `
     <div class="col-md-12">
       <div class="login-div">
         <div class="login-header">
-          <div class="pull-right"><img src="dist/img/white-unbound-orange-id-24.png" alt="UnboundID Logo" /></div>
-          {{ title }}
+          <div class="pull-right"><img class="logo" src="dist/img/ping-identity-horizontal-logo.png" alt="Ping Identity Logo"></div>
+          <div class="title">{{ title }}</div>
         </div>
         <div class="alerts-panel">
           <div *ngFor="let alert of alerts"
@@ -26,7 +26,7 @@ export const template = `
             <a [href]="logoutUrl">Sign Out</a>
             <span class="separator">|</span>
             <a (click)="showAbout = true"
-               href="javascript:void(0)">Powered by UnboundID Data Broker</a>
+               href="javascript:void(0)">Powered by Ping Identity Data Broker</a>
           </div>
         </div>
       </div>
@@ -44,7 +44,7 @@ export const template = `
       </div>
       <div class="modal-body ab-body">
         <div class="ab-app-logo">
-          <img src="dist/img/unboundid-white38.png" alt="UnboundID Logo" width="150" height="38">
+          <img src="dist/img/ping-identity-square-logo.png" alt="Ping Identity Logo">
         </div>
         <div class="ab-app-name">Data Broker My Account Sample UI</div>
         <div class="ab-app-version"> {{ configuration.version }}</div>
