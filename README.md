@@ -9,7 +9,9 @@ Data Broker sample UI for self-service account management
 1. Extract the my-account.tar.gz file (found in the samples directory).
 2. Use dsconfig to run the commands in the setup.dsconfig file.  This will create a Web Application Extension, assign
    the Web Application Extension to the HTTPS Connection Handler, and add the required Scope and OAuth Client objects to
-   the Data Broker's configuration.
+   the Data Broker's configuration.  If you are installing the sample on a Data Broker server group, you can apply the
+   script to the entire server group using the "--applyChangeTo server-group" argument. For Data Broker servers added
+   later, untar the my-account archive before cloning the configuration from an existing server.
 3. Restart the HTTP Connection Handler by disabling and re-enabling it, or by restarting the server.
 4. Access the sample at the HTTP Connection Handler's address and the /samples/my-account context.  For example:
    "https://1.2.3.4:8443/samples/my-account/".
