@@ -6,13 +6,12 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { BreadCrumbComponent, ScimService, Profile } from '../shared/index'
+import { ScimService, Profile } from '../shared/index'
 import { template } from './email-edit.html';
 
 @Component({
   selector: 'ubid-email-edit',
-  template: template,
-  directives: [ BreadCrumbComponent ]
+  template: template
 })
 export class EmailEditComponent implements OnInit {
 

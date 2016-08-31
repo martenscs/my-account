@@ -6,14 +6,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
-import { BreadCrumbComponent, ScimService, Profile, AddressPipe } from '../shared/index';
+import { ScimService, Profile } from '../shared/index';
 import { template } from './profile-view.html';
 
 @Component({
   selector: 'ubid-account-profile-view',
-  template: template,
-  directives: [ BreadCrumbComponent ],
-  pipes: [ AddressPipe ]
+  template: template
 })
 export class ProfileViewComponent implements OnInit, OnDestroy  {
 

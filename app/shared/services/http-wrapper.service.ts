@@ -31,7 +31,7 @@ export class HttpWrapper {
   }
 
   public get(url: string, options?: RequestOptionsArgs): Observable<any> {
-    options = this.addHeaders(options);
+    options = this.addHeaders(options, true);
 
     this.loadingService.start(HTTP_LOADING_KEY);
 
@@ -64,7 +64,7 @@ export class HttpWrapper {
   }
 
   public delete(url: string, options?: RequestOptionsArgs): Observable<any> {
-    options = this.addHeaders(options);
+    options = this.addHeaders(options, true);
 
     this.loadingService.start(HTTP_LOADING_KEY);
 
@@ -133,9 +133,13 @@ export class HttpWrapper {
     return (base || '') + '/' + (path || '');
   }
 
-  private addHeaders(options: RequestOptionsArgs): RequestOptionsArgs {
+  private addHeaders(options: RequestOptionsArgs, emptyBody = false): RequestOptionsArgs {
     if (!options) {
       options = <RequestOptionsArgs> {};
+    }
+    // workaround https://github.com/angular/angular/issues/10612
+    if (emptyBody) {
+      options.body = '';
     }
     options.headers = this.headers;
     if (this.bearerToken) {

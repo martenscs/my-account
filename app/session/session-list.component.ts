@@ -6,14 +6,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
-import { BreadCrumbComponent, ConfirmComponent, ElapsedTimePipe, ScimService } from '../shared/index'
+import { ScimService } from '../shared/index'
 import { template } from './session-list.html';
 
 @Component({
   selector: 'ubid-account-session-list',
-  template: template,
-  directives: [ BreadCrumbComponent, ConfirmComponent ],
-  pipes: [ ElapsedTimePipe ]
+  template: template
 })
 export class SessionListComponent implements OnInit, OnDestroy  {
   sessions: any[];

@@ -4,28 +4,28 @@
  */
 
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
-import { NgFormControl, ControlGroup, FormBuilder, Validators, FORM_DIRECTIVES } from '@angular/common';
+import { Validators } from '@angular/common';
+import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { BreadCrumbComponent, Utility, ScimService } from '../shared/index'
+import { Utility, ScimService } from '../shared/index'
 import { PasswordRequirementsComponent } from './password-requirements.component';
 import { template } from './change-password.html';
 
 @Component({
   selector: 'ubid-change-password',
-  template: template,
-  directives: [ FORM_DIRECTIVES, PasswordRequirementsComponent, BreadCrumbComponent ]
+  template: template
 })
 export class ChangePasswordComponent implements OnInit, AfterViewInit {
 
-  @ViewChild('currentPassword') currentPassword: NgFormControl;
-  @ViewChild('newPassword') newPassword: NgFormControl;
+  @ViewChild('currentPassword') currentPassword: FormControl;
+  @ViewChild('newPassword') newPassword: FormControl;
   @ViewChild(PasswordRequirementsComponent) passwordRequirementsComponent: PasswordRequirementsComponent;
 
   currentPasswordRequired: boolean;
   passwordRequirements: any;
 
-  changePasswordForm: ControlGroup;
+  changePasswordForm: FormGroup;
 
   constructor(private builder: FormBuilder, private router: Router, private scimService: ScimService) {}
 
@@ -43,7 +43,7 @@ export class ChangePasswordComponent implements OnInit, AfterViewInit {
           if (this.currentPasswordRequired) {
             config.currentPassword = ['', Validators.required];
           }
-          this.changePasswordForm = <ControlGroup> this.builder.group(
+          this.changePasswordForm = <FormGroup> this.builder.group(
               config,
               { validator: this.validateForm() }
           );
@@ -55,7 +55,7 @@ export class ChangePasswordComponent implements OnInit, AfterViewInit {
   }
 
   validateForm() {
-    return (group: ControlGroup): {[key: string]: any} => {
+    return (group: FormGroup): {[key: string]: any} => {
       var errors: any;
       if (group.controls['newPassword'].value !== group.controls['confirmPassword'].value) {
         errors = {

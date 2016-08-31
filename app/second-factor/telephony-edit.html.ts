@@ -14,10 +14,10 @@ export const template = `
 
   <div class="form-group">
     <label class="control-label required">Delivery Number </label>
-    <input ngControl="phoneField"
-           #phoneField="ngForm"
-           [(ngModel)]="phoneNumber"
+    <input [(ngModel)]="phoneNumber"
+           #phoneField="ngModel"
            required
+           name="phoneNumber"
            type="tel" class="form-control input-sm" placeholder="Enter Phone Number" tabindex="1">
     <div [hidden]="phoneField.valid || phoneField.pristine"
          class="validation-message">
@@ -61,10 +61,10 @@ export const template = `
     <label class="control-label required">Verify Code </label>
     <div class="row">
       <div class="col-md-6">
-        <input ngControl="codeField"
-               #codeField="ngForm"
-               [(ngModel)]="code"
+        <input [(ngModel)]="code"
+               #codeField="ngModel"
                required
+               name="code"
                type="text" class="form-control input-sm" placeholder="Enter the code we sent to the Delivery Number"
                tabindex="3">
       </div>

@@ -6,13 +6,12 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { BreadCrumbComponent, ScimService, Profile, VALIDATE_PHONE_NUMBER } from '../shared/index'
+import { ScimService, Profile, VALIDATE_PHONE_NUMBER } from '../shared/index'
 import { template } from './telephony-edit.html';
 
 @Component({
   selector: 'ubid-telephony-edit',
-  template: template,
-  directives: [ BreadCrumbComponent ]
+  template: template
 })
 export class TelephonyEditComponent implements OnInit {
 

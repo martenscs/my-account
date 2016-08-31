@@ -6,13 +6,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
-import { BreadCrumbComponent, ConfirmComponent, ScimService } from '../shared/index'
+import { ScimService } from '../shared/index'
 import { template } from './external-identity-list.html';
 
 @Component({
   selector: 'ubid-account-external-identity-list',
-  template: template,
-  directives: [ BreadCrumbComponent, ConfirmComponent ]
+  template: template
 })
 export class ExternalIdentityListComponent implements OnInit, OnDestroy  {
   externalIdentities: any[];

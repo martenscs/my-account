@@ -3,23 +3,12 @@
  * All Rights Reserved.
  */
 
-import { bootstrap } from '@angular/platform-browser-dynamic'
-import { enableProdMode, provide, PLATFORM_DIRECTIVES } from '@angular/core';
-import { ROUTER_DIRECTIVES } from '@angular/router';
-import { LocationStrategy, HashLocationStrategy } from '@angular/common';
-import { HTTP_PROVIDERS } from '@angular/http';
+import { enableProdMode } from '@angular/core';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
-import { AppComponent } from './app.component'
-import { Configuration } from './app.config'
-import { APP_ROUTER_PROVIDERS } from './app.routes';
+import { AppModule } from './app.module';
+
 
 enableProdMode();
 
-bootstrap(<any> AppComponent, [
-    APP_ROUTER_PROVIDERS,
-    provide(LocationStrategy, { useClass: HashLocationStrategy }),
-    provide(Window, { useValue: window }),
-    HTTP_PROVIDERS,
-    provide(PLATFORM_DIRECTIVES, { useValue: [ ROUTER_DIRECTIVES ], multi: true }),
-    Configuration
-  ]);
+platformBrowserDynamic().bootstrapModule(AppModule);

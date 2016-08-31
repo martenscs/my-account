@@ -7,13 +7,12 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
-import { BreadCrumbComponent, ConfirmComponent, ScimService } from '../shared/index'
+import { ScimService } from '../shared/index'
 import { template } from './consent-list.html';
 
 @Component({
   selector: 'ubid-account-consent-list',
-  template: template,
-  directives: [ BreadCrumbComponent, ConfirmComponent ]
+  template: template
 })
 export class ConsentListComponent implements OnInit, OnDestroy  {
   consents: any[];

@@ -6,14 +6,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { BreadCrumbComponent, ScimService } from '../shared/index'
-import { QrCodeComponent } from './index';
+import { ScimService } from '../shared/index'
 import { template } from './totp-edit.html';
 
 @Component({
   selector: 'ubid-totp-edit',
-  template: template,
-  directives: [ BreadCrumbComponent, QrCodeComponent ]
+  template: template
 })
 export class TotpEditComponent implements OnInit {
   totp: string;

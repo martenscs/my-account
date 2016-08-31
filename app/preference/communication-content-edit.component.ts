@@ -7,13 +7,12 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
-import { BreadCrumbComponent, Utility, ScimService, Profile } from '../shared/index'
+import { Utility, ScimService, Profile } from '../shared/index'
 import { template } from './communication-content-edit.html';
 
 @Component({
   selector: 'ubid-account-preference-communication-content-edit',
-  template: template,
-  directives: [ BreadCrumbComponent ]
+  template: template
 })
 export class CommunicationContentEditComponent implements OnInit, OnDestroy  {
 

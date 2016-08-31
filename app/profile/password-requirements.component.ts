@@ -4,7 +4,8 @@
  */
 
 import { Component, Input } from '@angular/core';
-import { AbstractControl } from '@angular/common';
+import { AbstractControl } from '@angular/forms';
+
 import { template } from './password-requirements.html';
 
 @Component({

@@ -6,7 +6,7 @@
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { Router, Event, NavigationStart } from '@angular/router';
 
-import { AlertService, LoadingService, HttpWrapper, ScimService, LayoutComponent } from './shared/index';
+import { AlertService, ScimService } from './shared/index';
 
 @Component({
   selector: 'ubid-app',
@@ -14,9 +14,7 @@ import { AlertService, LoadingService, HttpWrapper, ScimService, LayoutComponent
       <ubid-layout [hidden]="! show" [title]="'My Account'">
         <router-outlet></router-outlet>
       </ubid-layout>
-    `,
-  providers: [ AlertService, LoadingService, HttpWrapper, ScimService ],
-  directives: [ LayoutComponent ]
+    `
 })
 export class AppComponent implements OnInit, OnDestroy {
 
@@ -56,7 +54,13 @@ export class AppComponent implements OnInit, OnDestroy {
     else if (this.scimService.error) {
       route = '/error';
     }
-    this.router.navigate([ route ]);
+    // HACK: the router has not yet loaded its initial route at this point, so any navigation call here will get
+    // cancelled by the initial route which uses the location from the URL.  To workaround we set the hash to the
+    // desired initial route.
+    //this.router.navigate([ route ]);
+    if (this.window && this.window.location) {
+      this.window.location.hash = route;
+    }
 
     // only show the layout/page if the SCIM service initialized (i.e. did not redirect for access token)
     this.show = this.scimService.initialized;

@@ -14,10 +14,10 @@ export const template = `
 
   <div class="form-group">
     <label class="control-label required">Delivery Address </label>
-    <input ngControl="emailField"
-           #emailField="ngForm"
-           [(ngModel)]="emailAddress"
+    <input [(ngModel)]="emailAddress"
+           #emailField="ngModel"
            required
+           name="emailAddress"
            pattern="[^@\\s]+@[^@\\s]+\\.[^@\\s]+"
            type="email" class="form-control input-sm" placeholder="Enter Email Address" tabindex="1">
     <div [hidden]="emailField.valid || emailField.pristine"
@@ -48,10 +48,10 @@ export const template = `
     <label class="control-label required">Verify Code </label>
     <div class="row">
       <div class="col-md-6">
-        <input ngControl="codeField"
-               #codeField="ngForm"
-               [(ngModel)]="code"
+        <input [(ngModel)]="code"
+               #codeField="ngModel"
                required
+               name = "code"
                type="text" class="form-control input-sm" placeholder="Enter the code we sent to the Delivery Address"
                tabindex="3">
       </div>

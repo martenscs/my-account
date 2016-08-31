@@ -729,7 +729,7 @@ export class ScimService {
     }
     else {
       // otherwise should be string
-      obj.message = error;
+      obj.message = typeof error === 'string' ? error : 'An error occurred.';
       if (details) {
         obj.details = details;
       }

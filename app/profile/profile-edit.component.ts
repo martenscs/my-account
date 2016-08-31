@@ -7,13 +7,12 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
-import { BreadCrumbComponent, Utility, ScimService, Profile } from '../shared/index'
+import { Utility, ScimService, Profile } from '../shared/index'
 import { template } from './profile-edit.html';
 
 @Component({
   selector: 'ubid-account-profile-edit',
-  template: template,
-  directives: [ BreadCrumbComponent ]
+  template: template
 })
 export class ProfileEditComponent implements OnInit, OnDestroy {
 

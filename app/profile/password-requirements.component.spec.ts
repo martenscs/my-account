@@ -3,8 +3,6 @@
  * All Rights Reserved.
  */
 
-import { it, describe, expect } from '@angular/core/testing';
-
 import { PasswordRequirementsComponent } from './password-requirements.component';
 
 describe('PasswordRequirementsComponent Tests', () => {

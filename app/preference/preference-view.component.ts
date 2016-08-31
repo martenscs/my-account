@@ -6,13 +6,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
-import { BreadCrumbComponent, ScimService, Profile } from '../shared/index'
+import { ScimService, Profile } from '../shared/index'
 import { template } from './preference-view.html';
 
 @Component({
   selector: 'ubid-account-preference-view',
-  template: template,
-  directives: [ BreadCrumbComponent ]
+  template: template
 })
 export class PreferenceViewComponent implements OnInit, OnDestroy  {
   private subscription: Subscription;

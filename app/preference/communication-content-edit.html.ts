@@ -72,6 +72,7 @@ export const template = `
       </label>
     </div>
     <input [(ngModel)]="options.time"
+           name="time"
            type="time" class="form-control">
     <div class="radio mln">
       <label>
@@ -81,7 +82,7 @@ export const template = `
                type="radio"> Weekly
       </label>
     </div>
-    <select [(ngModel)]="options.day" class="form-control">
+    <select [(ngModel)]="options.day" name="day" class="form-control">
       <option value="Sunday">Sunday</option>
       <option value="Monday">Monday</option>
       <option value="Tuesday">Tuesday</option>

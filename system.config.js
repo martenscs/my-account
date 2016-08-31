@@ -18,7 +18,8 @@
     '@angular/platform-browser',
     '@angular/platform-browser-dynamic',
     '@angular/http',
-    '@angular/router'
+    '@angular/router',
+    '@angular/forms'
   ].forEach(function(name) {
     packages[name] = { main: 'index', defaultExtension: 'js' };
   });

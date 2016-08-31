@@ -33,10 +33,10 @@ export const template = `
 
   <div class="form-group mtm">
     <label class="control-label required">Verify Code </label>
-    <input ngControl="totpField"
-       #totpField="ngForm"
-       [(ngModel)]="totp"
+    <input [(ngModel)]="totp"
+       #totpField="ngModel"
        required
+       name="totp"
        type="text" class="form-control input-sm"
        placeholder="Enter the code from your Time-based One-time Password application"
        tabindex="1">

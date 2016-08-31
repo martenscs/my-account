@@ -7,7 +7,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
-import { BreadCrumbComponent, ConfirmComponent, ScimService, VALIDATE_PHONE_NUMBER } from '../shared/index'
+import { ScimService, VALIDATE_PHONE_NUMBER } from '../shared/index'
 import { template } from './second-factor-view.html';
 
 
@@ -16,8 +16,7 @@ enum AuthenticationMethod { Email, Phone, TOTP }
 
 @Component({
   selector: 'ubid-account-second-factor-view',
-  template: template,
-  directives: [ BreadCrumbComponent, ConfirmComponent ]
+  template: template
 })
 export class SecondFactorViewComponent implements OnInit, OnDestroy  {
 

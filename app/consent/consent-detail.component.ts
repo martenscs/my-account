@@ -6,14 +6,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { BreadCrumbComponent, ConfirmComponent, CapitalizePipe, ScimService } from '../shared/index'
+import { ScimService } from '../shared/index'
 import { template } from './consent-detail.html';
 
 @Component({
   selector: 'ubid-account-consent-detail',
-  template: template,
-  directives: [ BreadCrumbComponent, ConfirmComponent ],
-  pipes: [ CapitalizePipe ]
+  template: template
 })
 export class ConsentDetailComponent implements OnInit {
   consent: any;
