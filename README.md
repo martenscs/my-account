@@ -84,7 +84,7 @@ The build process requires node and npm to be installed on the development machi
 npm v3.10.2, but there are not currently any known version compatibility issues.
 
 Once node and npm are installed, the project's dependencies can be installed by running "npm install" within the source
-directory.
+directory.  When executed as root on linux, use "npm install --unsafe-perm" instead.
 
 The package.json file defines several project scripts that can be run via "npm run [SCRIPT NAME]".  Examples include
 "prod" which will rebuild the project and package it in a war file, "dev" for running the project in the development
