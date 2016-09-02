@@ -3,32 +3,33 @@
  * All Rights Reserved.
  */
 
-import { Utility } from './index'
+import { Utility, URN_PREFIX } from './index'
 
 
 // constants for the default extension schema
-const EXTENSION_SCHEMA: string = 'urn:unboundid:schemas:sample:profile:1.0';
+const EXTENSION_SCHEMA: string = URN_PREFIX + 'schemas:sample:profile:1.0';
+
+const X_VALUE_URN_PREFIX = 'urn:X-UnboundID:';
 
 const COMMUNICATION_OPT: any = {
-  SMS: 'urn:X-UnboundID:Opt:SMSMarketing',
-  EMAIL: 'urn:X-UnboundID:Opt:EmailMarketing'
+  SMS: X_VALUE_URN_PREFIX + 'Opt:SMSMarketing',
+  EMAIL: X_VALUE_URN_PREFIX + 'Opt:EmailMarketing'
 };
 
 const CONTENT_OPT: any = {
-  COUPON: 'urn:X-UnboundID:Opt:Coupons',
-  NEWSLETTER: 'urn:X-UnboundID:Opt:Newsletters',
-  NOTIFICATION: 'urn:X-UnboundID:Opt:Notification'
+  COUPON: X_VALUE_URN_PREFIX + 'Opt:Coupons',
+  NEWSLETTER: X_VALUE_URN_PREFIX + 'Opt:Newsletters',
+  NOTIFICATION: X_VALUE_URN_PREFIX + 'Opt:Notification'
 };
 
-const COLLECTOR: string = 'urn:X-UnboundID:App:Broker-UI';
+const COLLECTOR: string = X_VALUE_URN_PREFIX + ':App:Broker-UI';
 
-const TOPICS = {
-  'urn:X-UnboundID:topic:clothing:shoes' : 'I love shoes',
-  'urn:X-UnboundID:topic:clothing:workout' : 'I like to workout',
-  'urn:X-UnboundID:topic:clothing:casual' : 'I\'m comfortably casual',
-  'urn:X-UnboundID:topic:clothing:accessories' : 'I love to accessorize',
-  'urn:X-UnboundID:topic:clothing:impress' : 'I dress to impress'
-};
+const TOPICS = {};
+TOPICS[X_VALUE_URN_PREFIX + 'topic:clothing:shoes'] = 'I love shoes';
+TOPICS[X_VALUE_URN_PREFIX + 'topic:clothing:workout'] = 'I like to workout';
+TOPICS[X_VALUE_URN_PREFIX + 'topic:clothing:casual'] = 'I\'m comfortably casual';
+TOPICS[X_VALUE_URN_PREFIX + 'topic:clothing:accessories'] = 'I love to accessorize';
+TOPICS[X_VALUE_URN_PREFIX + 'topic:clothing:impress'] = 'I dress to impress';
 
 
 // This class encapsulates a profile record (contains schema-specific dependencies).

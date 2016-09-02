@@ -48,27 +48,27 @@ Data Broker sample UI for self-service account management
 
 The sample's default configuration depends on scopes that are created by the setup.dsconfig file:
 
-1. `urn:unboundid:scope:manage_profile`
+1. `urn:pingidentity:scope:manage_profile`
    Allows reading and modifying the user's profile attributes.
    This scope is configured with resource attributes that are defined by the Data Broker's reference app schema.
-2. `urn:unboundid:scope:password_quality_requirements`
+2. `urn:pingidentity:scope:password_quality_requirements`
    Allows reading the user's account password quality requirements.
-3. `urn:unboundid:scope:change_password`
+3. `urn:pingidentity:scope:change_password`
    Allows resetting the user's password.
-4. `urn:unboundid:scope:manage_external_identities`
+4. `urn:pingidentity:scope:manage_external_identities`
    Allows reading and removing user's external identity provider account links.
-5. `urn:unboundid:scope:manage_sessions`
+5. `urn:pingidentity:scope:manage_sessions`
    Allows reading and removing the user's active sessions.
-6. `urn:unboundid:scope:manage_consents`
+6. `urn:pingidentity:scope:manage_consents`
    Allows reading and revoking the user's consent records.
-7. `urn:unboundid:scope:validate_email_address`
+7. `urn:pingidentity:scope:validate_email_address`
    Allows validating the user's email address. (no consent required for this client)
-8. `urn:unboundid:scope:validate_phone_number`
+8. `urn:pingidentity:scope:validate_phone_number`
    Allows validating the user's phone number. (no consent required for this client)
-9. `urn:unboundid:scope:manage_totp`
+9. `urn:pingidentity:scope:manage_totp`
    Allows managing the user's TOTP secret. (no consent required for this client)
 
-As noted above the `urn:unboundid:scope:manage_profile` scope is configured with resource attributes that are defined
+As noted above the `urn:pingidentity:scope:manage_profile` scope is configured with resource attributes that are defined
 by the Data Broker's reference app schema.  If another schema is used this scope will need to be re-configured (see the
 "Customization" section for additional details).
 

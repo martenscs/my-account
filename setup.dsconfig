@@ -20,7 +20,7 @@ dsconfig create-oauth2-client \
 #    --add redirect-url:http://localhost:3004/callback.html
 
 dsconfig create-oauth2-scope \
-    --scope-name urn:unboundid:scope:manage_profile \
+    --scope-name urn:pingidentity:scope:manage_profile \
     --type authenticated-identity \
     --set "description:View and update the user's profile." \
     --set "consent-prompt-text:View and update your profile." \
@@ -33,18 +33,18 @@ dsconfig create-oauth2-scope \
     --set resource-attribute:secondFactorEnabled \
     --set resource-attribute:secondFactorEmail \
     --set resource-attribute:secondFactorPhoneNumber \
-    --set resource-attribute:urn:unboundid:schemas:sample:profile:1.0:birthDate \
-    --set resource-attribute:urn:unboundid:schemas:sample:profile:1.0:communicationOpts \
-    --set resource-attribute:urn:unboundid:schemas:sample:profile:1.0:contentOpts \
-    --set resource-attribute:urn:unboundid:schemas:sample:profile:1.0:postalCode \
-    --set resource-attribute:urn:unboundid:schemas:sample:profile:1.0:termsOfService \
-    --set resource-attribute:urn:unboundid:schemas:sample:profile:1.0:topicPreferences \
+    --set resource-attribute:urn:pingidentity:schemas:sample:profile:1.0:birthDate \
+    --set resource-attribute:urn:pingidentity:schemas:sample:profile:1.0:communicationOpts \
+    --set resource-attribute:urn:pingidentity:schemas:sample:profile:1.0:contentOpts \
+    --set resource-attribute:urn:pingidentity:schemas:sample:profile:1.0:postalCode \
+    --set resource-attribute:urn:pingidentity:schemas:sample:profile:1.0:termsOfService \
+    --set resource-attribute:urn:pingidentity:schemas:sample:profile:1.0:topicPreferences \
     --set resource-attribute:userName \
     --set resource-operation:retrieve \
     --set resource-operation:modify
 
 dsconfig create-oauth2-scope \
-    --scope-name urn:unboundid:scope:password_quality_requirements \
+    --scope-name urn:pingidentity:scope:password_quality_requirements \
     --type authenticated-identity \
     --set "description:View the password quality requirements for the user's account." \
     --set "consent-prompt-text:View your account's password quality requirements." \
@@ -53,7 +53,7 @@ dsconfig create-oauth2-scope \
     --set resource-operation:retrieve
 
 dsconfig create-oauth2-scope \
-    --scope-name urn:unboundid:scope:change_password \
+    --scope-name urn:pingidentity:scope:change_password \
     --type authenticated-identity \
     --set "description:Change the user's password." \
     --set "consent-prompt-text:Change your password." \
@@ -62,7 +62,7 @@ dsconfig create-oauth2-scope \
     --set resource-operation:modify
 
 dsconfig create-oauth2-scope \
-    --scope-name urn:unboundid:scope:manage_external_identities \
+    --scope-name urn:pingidentity:scope:manage_external_identities \
     --type authenticated-identity \
     --set "description:View and update the user's external identity links." \
     --set "consent-prompt-text:View and update your account's external identity links." \
@@ -75,7 +75,7 @@ dsconfig create-oauth2-scope \
     --set resource-operation:delete
 
 dsconfig create-oauth2-scope \
-    --scope-name urn:unboundid:scope:manage_sessions \
+    --scope-name urn:pingidentity:scope:manage_sessions \
     --type authenticated-identity \
     --set "description:View and remove the user's active sessions." \
     --set "consent-prompt-text:View and remove your active sessions." \
@@ -86,7 +86,7 @@ dsconfig create-oauth2-scope \
     --set resource-operation:delete
 
 dsconfig create-oauth2-scope \
-    --scope-name urn:unboundid:scope:manage_consents \
+    --scope-name urn:pingidentity:scope:manage_consents \
     --type authenticated-identity \
     --set "description:View and revoke the user's consents." \
     --set "consent-prompt-text:View and revoke your consent to share information with applications." \
@@ -97,7 +97,7 @@ dsconfig create-oauth2-scope \
     --set resource-operation:delete
 
 dsconfig create-oauth2-scope \
-    --scope-name urn:unboundid:scope:validate_email_address \
+    --scope-name urn:pingidentity:scope:validate_email_address \
     --type authenticated-identity \
     --set "description:Validate the user's email address." \
     --set "consent-prompt-text:Validate your email address." \
@@ -109,7 +109,7 @@ dsconfig create-oauth2-scope \
     --set resource-operation:search
 
 dsconfig create-oauth2-scope \
-    --scope-name urn:unboundid:scope:validate_phone_number \
+    --scope-name urn:pingidentity:scope:validate_phone_number \
     --type authenticated-identity \
     --set "description:Validate the user's phone number." \
     --set "consent-prompt-text:Validate your phone number." \
@@ -121,7 +121,7 @@ dsconfig create-oauth2-scope \
     --set resource-operation:search
 
 dsconfig create-oauth2-scope \
-    --scope-name urn:unboundid:scope:manage_totp \
+    --scope-name urn:pingidentity:scope:manage_totp \
     --type authenticated-identity \
     --set "description:Manage the user's TOTP shared secret." \
     --set "consent-prompt-text:Manage your TOTP shared secret." \
@@ -135,47 +135,47 @@ dsconfig create-oauth2-scope \
 
 dsconfig create-permitted-scope \
     --client-name "My Account" \
-    --scope-name urn:unboundid:scope:manage_profile
+    --scope-name urn:pingidentity:scope:manage_profile
 
 dsconfig create-permitted-scope \
     --client-name "My Account" \
-    --scope-name urn:unboundid:scope:password_quality_requirements \
+    --scope-name urn:pingidentity:scope:password_quality_requirements \
     --set consent-required:false
 
 dsconfig create-permitted-scope \
     --client-name "My Account" \
-    --scope-name urn:unboundid:scope:change_password
+    --scope-name urn:pingidentity:scope:change_password
 
 dsconfig create-permitted-scope \
     --client-name "My Account" \
-    --scope-name urn:unboundid:scope:manage_external_identities
+    --scope-name urn:pingidentity:scope:manage_external_identities
 
 dsconfig create-permitted-scope \
     --client-name "My Account" \
-    --scope-name urn:unboundid:scope:manage_sessions
+    --scope-name urn:pingidentity:scope:manage_sessions
 
 dsconfig create-permitted-scope \
     --client-name "My Account" \
-    --scope-name urn:unboundid:scope:manage_consents
+    --scope-name urn:pingidentity:scope:manage_consents
 
 dsconfig create-permitted-scope \
     --client-name "My Account" \
-    --scope-name urn:unboundid:scope:validate_email_address \
+    --scope-name urn:pingidentity:scope:validate_email_address \
     --set consent-required:false
 
 dsconfig create-permitted-scope \
     --client-name "My Account" \
-    --scope-name urn:unboundid:scope:validate_phone_number \
+    --scope-name urn:pingidentity:scope:validate_phone_number \
     --set consent-required:false
 
 dsconfig create-permitted-scope \
     --client-name "My Account" \
-    --scope-name urn:unboundid:scope:manage_totp \
+    --scope-name urn:pingidentity:scope:manage_totp \
     --set consent-required:false
 
 dsconfig create-web-application-extension \
     --extension-name "My Account" \
-    --set "description:Web Application Extension for hosting the UnboundID My Account sample application." \
+    --set "description:Web Application Extension for hosting the My Account sample application." \
     --set base-context-path:/samples/my-account \
     --set war-file:samples/my-account/my-account.war \
     --set deployment-descriptor-file:config/single-page-application-web.xml

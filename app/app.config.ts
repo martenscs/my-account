@@ -18,15 +18,17 @@ export const RESOURCE_SERVER_URL = IDENTITY_PROVIDER_URL;
 
 export const CLIENT_ID = '@my-account@';
 
-export const SCOPES = 'urn:unboundid:scope:manage_profile ' +
-    'urn:unboundid:scope:password_quality_requirements ' +
-    'urn:unboundid:scope:change_password ' +
-    'urn:unboundid:scope:manage_external_identities ' +
-    'urn:unboundid:scope:manage_sessions ' +
-    'urn:unboundid:scope:manage_consents ' +
-    'urn:unboundid:scope:validate_email_address ' +
-    'urn:unboundid:scope:validate_phone_number ' +
-    'urn:unboundid:scope:manage_totp';
+export const URN_PREFIX = 'urn:pingidentity:';
+
+export const SCOPES = URN_PREFIX + 'scope:manage_profile ' +
+    URN_PREFIX + 'scope:password_quality_requirements ' +
+    URN_PREFIX + 'scope:change_password ' +
+    URN_PREFIX + 'scope:manage_external_identities ' +
+    URN_PREFIX + 'scope:manage_sessions ' +
+    URN_PREFIX + 'scope:manage_consents ' +
+    URN_PREFIX + 'scope:validate_email_address ' +
+    URN_PREFIX + 'scope:validate_phone_number ' +
+    URN_PREFIX + 'scope:manage_totp';
 
 export const ACR_VALUES = ''; // if no values are specified the defaults will be used
 

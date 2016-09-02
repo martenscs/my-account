@@ -13,7 +13,7 @@ import 'rxjs/add/operator/share';
 import 'rxjs/add/observable/empty';
 
 import { AlertService, HttpWrapper, LoadingService, Utility, Profile, VALIDATE_EMAIL_ADDRESS,
-    VALIDATE_PHONE_NUMBER } from '../index';
+    VALIDATE_PHONE_NUMBER, URN_PREFIX } from '../index';
 
 
 const STORAGE_KEY: any = {
@@ -321,7 +321,7 @@ export class ScimService {
 
   changePassword(newPassword: string, currentPassword?: string): Observable<any> {
     var data: any = {
-      schemas: [ 'urn:unboundid:scim:api:messages:2.0:PasswordUpdateRequest' ],
+      schemas: [ URN_PREFIX + 'scim:api:messages:2.0:PasswordUpdateRequest' ],
       newPassword: newPassword,
       currentPassword: currentPassword
     };
