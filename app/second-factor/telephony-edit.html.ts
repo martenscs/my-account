@@ -79,6 +79,7 @@ export const template = `
     <button [disabled]="! codeField.valid"
             type="submit" class="btn btn-primary" tabindex="4">Save</button>
     <a [routerLink]="['/second-factor']"
+       (click)="cancel()"
        class="btn">Cancel</a>
   </div>
 </form>

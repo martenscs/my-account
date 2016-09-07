@@ -96,6 +96,11 @@ export class TelephonyEditComponent implements OnInit {
         );
   }
 
+  cancel() {
+    // refresh the validated phone number info in case a partial verification was done
+    this.scimService.fetchValidatedPhoneNumber();
+  }
+
   private resetCode() {
     this.showCode = false;
     this.code = undefined;

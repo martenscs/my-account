@@ -80,4 +80,9 @@ export class EmailEditComponent implements OnInit {
             }
         );
   }
+
+  cancel() {
+    // refresh the validated email address info in case a partial verification was done
+    this.scimService.fetchValidatedEmailAddress();
+  }
 }
