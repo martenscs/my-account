@@ -8,8 +8,7 @@ export const template = `
     <div class="col-md-12">
 
       <p class="text-muted">Below are the active sessions for browsers that accessed your account without signing out
-        (up to five concurrently). Removing a session will force another sign in for continued access from that
-        browser.</p>
+        (up to five concurrently).</p>
 
     </div>
   </div>

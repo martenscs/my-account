@@ -151,10 +151,8 @@ export class ScimService {
   }
 
   get sessions$(): Observable<any[]> {
-    // lazy-load the sessions
-    if (! this.sessions.getValue()) {
-      this.fetchSessions();
-    }
+    // lazy-load the sessions (and force refresh every subscription)
+    this.fetchSessions();
     return this._sessions$;
   }
 
