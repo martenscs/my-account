@@ -115,7 +115,6 @@ export class ScimService {
       else if (params['error']) {
         this.error = this.formatError(params['error_description'] || params['error'],
             params['error_description'] ? params['error'] : undefined);
-        this.error.message = this.error.message.replace(/\+/g, ' ');
       }
       else {
         this.error = this.formatError('Unexpected OAuth callback parameters');
