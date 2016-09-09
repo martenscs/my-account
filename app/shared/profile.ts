@@ -9,7 +9,7 @@ import { Utility, URN_PREFIX } from './index'
 // constants for the default extension schema
 const EXTENSION_SCHEMA: string = URN_PREFIX + 'schemas:sample:profile:1.0';
 
-const X_VALUE_URN_PREFIX = 'urn:X-UnboundID:';
+const X_VALUE_URN_PREFIX = 'urn:X-pingidentity:';
 
 const COMMUNICATION_OPT: any = {
   SMS: X_VALUE_URN_PREFIX + 'Opt:SMSMarketing',
