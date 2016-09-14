@@ -18,6 +18,7 @@ export const template = `
        class="form-group">
     <label class="control-label required">Current&nbsp;Password </label>
     <input formControlName="currentPassword"
+           maxlength="256"
            type="password" placeholder="Enter Current Password" class="form-control input-sm" tabindex="1">
     <div *ngIf="changePasswordForm.controls['currentPassword'].dirty && 
                   changePasswordForm.controls['currentPassword'].hasError('required')"
@@ -31,6 +32,7 @@ export const template = `
        class="form-group">
     <label class="control-label required">New Password </label>
     <input formControlName="newPassword"
+           maxlength="256"
            type="password" required placeholder="Enter New Password" class="form-control input-sm" tabindex="2">
     <div *ngIf="changePasswordForm.controls['newPassword'].dirty && 
                   changePasswordForm.controls['newPassword'].hasError('required')"
@@ -45,6 +47,7 @@ export const template = `
        class="form-group">
     <label class="control-label required">Confirm&nbsp;Password </label>
     <input formControlName="confirmPassword"
+           maxlength="256"
            type="password" required placeholder="Re-enter New Password" class="form-control input-sm" tabindex="3">
     <div *ngIf="changePasswordForm.controls['confirmPassword'].dirty && 
                   (changePasswordForm.controls['confirmPassword'].hasError('required') ||

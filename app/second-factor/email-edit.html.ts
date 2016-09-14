@@ -17,6 +17,7 @@ export const template = `
     <input [(ngModel)]="emailAddress"
            #emailField="ngModel"
            required
+           maxlength="256"
            name="emailAddress"
            pattern="[^@\\s]+@[^@\\s]+\\.[^@\\s]+"
            type="email" class="form-control input-sm" placeholder="Enter Email Address" tabindex="1">
@@ -51,6 +52,7 @@ export const template = `
         <input [(ngModel)]="code"
                #codeField="ngModel"
                required
+               maxlength="12"
                name = "code"
                type="text" class="form-control input-sm" placeholder="Enter the code we sent to the Delivery Address"
                tabindex="3">

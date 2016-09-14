@@ -36,6 +36,7 @@ export const template = `
     <input [(ngModel)]="totp"
        #totpField="ngModel"
        required
+       maxlength="12"
        name="totp"
        type="text" class="form-control input-sm"
        placeholder="Enter the code from your Time-based One-time Password application"

@@ -22,12 +22,14 @@ export const template = `
         <input [(ngModel)]="profile.record.name.givenName"
                #givenName="ngModel"
                name="givenName"
+               maxlength="256"
                type="text" class="form-control input-sm" style="width:240px" placeholder="Given/First Name" required>
       </div>
       <div class="form-group">
         <input [(ngModel)]="profile.record.name.familyName"
                #familyName="ngModel"
                name="familyName"
+               maxlength="256"
                type="text" class="form-control input-sm" style="width:240px" placeholder="Last/Family Name" required>
       </div>
     </div>
@@ -47,6 +49,7 @@ export const template = `
            #emailField="ngModel"
            required
            pattern="[^@\\s]+@[^@\\s]+\\.[^@\\s]+"
+           maxlength="256"
            name="email"
            type="email" class="form-control input-sm" placeholder="Email Address">
     <div [hidden]="emailField.valid || emailField.pristine"
@@ -63,22 +66,26 @@ export const template = `
     <label class="control-label">Address </label>
     <input [(ngModel)]="profile.address.streetAddress"
            name="streetAddress"
+           maxlength="256"
            type="text" class="form-control input-sm" placeholder="Street Address">
   </div>
   <div class="form-inline form-group">
     <div class="form-group">
       <input [(ngModel)]="profile.address.locality"
              name="locality"
+             maxlength="256"
              type="text" class="form-control input-sm" style="width:300px" placeholder="City or Locality">
     </div>
     <div class="form-group">
       <input [(ngModel)]="profile.address.region"
              name="region"
+             maxlength="256"
              type="text" class="form-control input-sm" style="width:110px" placeholder="State or Region">
     </div>
     <div class="form-group">
       <input [(ngModel)]="profile.address.postalCode"
              name="postalCode"
+             maxlength="40"
              type="text" class="form-control input-sm" style="width:125px" placeholder="Zip or Postal Code">
     </div>
   </div>
@@ -86,6 +93,7 @@ export const template = `
     <label class="control-label">Phone </label>
     <input [(ngModel)]="profile.phone"
            name="phone"
+           maxlength="32"
            type="tel" class="form-control input-sm" placeholder="Phone Number">
   </div>
   <div class="form-group">
@@ -98,6 +106,7 @@ export const template = `
       <div class="col-md-10" style="vertical-align:middle">
         <input [(ngModel)]="profile.photoUrl"
                name="photoUrl"
+               maxlength="512"
                type="text" class="form-control input-sm" placeholder="Profile Image URL">
       </div>
     </div>

@@ -17,6 +17,7 @@ export const template = `
     <input [(ngModel)]="phoneNumber"
            #phoneField="ngModel"
            required
+           maxlength="32"
            name="phoneNumber"
            type="tel" class="form-control input-sm" placeholder="Enter Phone Number" tabindex="1">
     <div [hidden]="phoneField.valid || phoneField.pristine"
@@ -64,6 +65,7 @@ export const template = `
         <input [(ngModel)]="code"
                #codeField="ngModel"
                required
+               maxlength="12"
                name="code"
                type="text" class="form-control input-sm" placeholder="Enter the code we sent to the Delivery Number"
                tabindex="3">
