@@ -1,17 +1,17 @@
 my-account
 ==========
 
-Data Broker sample UI for self-service account management
+Data Governance Server sample UI for self-service account management
 
 
-### Simple Deployment (within the Data Broker)
+### Simple Deployment (within the Data Governance Server)
 
 1. Extract the my-account.tar.gz file (found in the samples directory).
 2. Use dsconfig to run the commands in the setup.dsconfig file.  This will create a Web Application Extension, assign
    the Web Application Extension to the HTTPS Connection Handler, and add the required Scope and OAuth Client objects to
-   the Data Broker's configuration.  If you are installing the sample on a Data Broker server group, you can apply the
-   script to the entire server group using the "--applyChangeTo server-group" argument. For Data Broker servers added
-   later, untar the my-account archive before cloning the configuration from an existing server.
+   the Data Governance Server's configuration.  If you are installing the sample on a Data Governance Server server
+   group, you can apply the script to the entire server group using the "--applyChangeTo server-group" argument. For
+   Data Governance Servers added later, untar the my-account archive before cloning the configuration from an existing server.
 3. Restart the HTTP Connection Handler by disabling and re-enabling it, or by restarting the server.
 4. Access the sample at the HTTP Connection Handler's address and the /samples/my-account context.  For example:
    "https://1.2.3.4:8443/samples/my-account/".
@@ -26,13 +26,13 @@ Data Broker sample UI for self-service account management
 4. Deploy the custom my-account.war file into your servlet container as appropriate (e.g. copy it into the webapps
    directory of your Tomcat installation and restart).
 5. Use dsconfig to run the commands in the setup.dsconfig file that add the required Scope and OAuth Client objects to
-   the Data Broker's configuration.
-6. Use dsconfig or the Management Console application to add the URL the sample application will be accessible at to the
-   My Account OAuth2 Client's Redirect URLs list.
-7. Use dsconfig or the Management Console application to edit the HTTP Servlet Cross Origin Policy configuration to
-   allow for cross-domain AJAX requests to the Data Broker's SCIM2 HTTP Servlet Extension. The sample application's
-   origin and the Data Broker's origin should be added to "cors-allowed-origins", and "GET", "DELETE", "POST" and "PUT"
-   should be added to "cors-allowed-methods". E.g.,
+   the Data Governance Server's configuration.
+6. Use dsconfig or the console application to add the URL the sample application will be accessible at to the My Account
+   OAuth2 Client's Redirect URLs list.
+7. Use dsconfig or the console application to edit the HTTP Servlet Cross Origin Policy configuration to allow for
+   cross-domain AJAX requests to the Data Governance Server's SCIM2 HTTP Servlet Extension. The sample application's
+   origin and the Data Governance Server's origin should be added to "cors-allowed-origins", and "GET", "DELETE", "POST"
+   and "PUT" should be added to "cors-allowed-methods". E.g.,
 
    dsconfig create-http-servlet-cross-origin-policy --policy-name my-account \
        --set cors-allowed-origins:http://localhost:3004 --set cors-allowed-origins:https://localhost:8445 \
@@ -50,7 +50,8 @@ The sample's default configuration depends on scopes that are created by the set
 
 1. `urn:pingidentity:scope:manage_profile`
    Allows reading and modifying the user's profile attributes.
-   This scope is configured with resource attributes that are defined by the Data Broker's reference app schema.
+   This scope is configured with resource attributes that are defined by the Data Governance Server's reference app
+   schema.
 2. `urn:pingidentity:scope:password_quality_requirements`
    Allows reading the user's account password quality requirements.
 3. `urn:pingidentity:scope:change_password`
@@ -69,8 +70,8 @@ The sample's default configuration depends on scopes that are created by the set
    Allows managing the user's TOTP secret. (no consent required for this client)
 
 As noted above the `urn:pingidentity:scope:manage_profile` scope is configured with resource attributes that are defined
-by the Data Broker's reference app schema.  If another schema is used this scope will need to be re-configured (see the
-"Customization" section for additional details).
+by the Data Governance Server's reference app schema.  If another schema is used this scope will need to be
+re-configured (see the "Customization" section for additional details).
 
 
 ### Customization
@@ -95,48 +96,49 @@ environment.
 If you wish to run the application in the development environment ("npm run dev"), some additional configuration will be
 required:
 
-1. The dev server's redirect URL will need to be added to the OAuth2 Client configuration via dsconfig or the Management
-   Console (see the commented out command in setup.dsconfig).
+1. The dev server's redirect URL will need to be added to the OAuth2 Client configuration via dsconfig or the console
+   application (see the commented out command in setup.dsconfig).
 2. The `IDENTITY_PROVIDER_URL` and `RESOURCE_SERVER_URL` constants in app/app.config.ts will need to be updated to use
-   absolute URLs since the application will be running in the development environment rather than the Data Broker
-   (see the commented out example override values in app/app.config.ts).
+   absolute URLs since the application will be running in the development environment rather than the Data Governance
+   Server (see the commented out example override values in app/app.config.ts).
 3. The dev server's origin (http://localhost:3004) will need to be added to the HTTP Servlet Cross Origin Policy
-   configuration to allow for cross-domain AJAX requests to the Data Broker's SCIM2 HTTP Servlet Extension (see step 7
-   in the "Advanced Deployment" section above).
+   configuration to allow for cross-domain AJAX requests to the Data Governance Server's SCIM2 HTTP Servlet Extension
+   (see step 7 in the "Advanced Deployment" section above).
 
 When ready to deploy a customization, run "npm run prod" from the command-line to rebuild the project and package it
 into a war file.
 
 The My Account Web Application Extension can then be updated to reference the custom my-account.war file (make sure
-to remove "tmp/My Account" so that the Data Broker will redeploy from the new war file when the HTTP connection handler
-and/or the server are restarted).
+to remove "tmp/My Account" so that the Data Governance Server will redeploy from the new war file when the HTTP
+connection handler and/or the server are restarted).
 
 Several configuration values are defined in the app/app.config.ts file for easy customization.  The configuration values
 can be found near the top of the script (search for the "export" statements). Values include:
 
 1. `IDENTITY_PROVIDER_URL`
-   The URI of the Data Broker's OAuth connection handler.  A value like "https://1.2.3.4:8443" should be used.
+   The URI of the Data Governance Server's OAuth connection handler.  A value like "https://1.2.3.4:8443" should be
+   used.
 2. `RESOURCE_SERVER_URL`
-   The URI of the Data Broker's SCIM connection handler.  A value like "https://1.2.3.4:8443" should be used.
+   The URI of the Data Governance Server's SCIM connection handler.  A value like "https://1.2.3.4:8443" should be used.
 3. `CLIENT_REDIRECT_URL`
    The redirect URI for the client in the OAuth flow.  This should be the address used to view the sample, and
-   should be one of the Redirect URLs configured for the sample OAuth2 Client in the Data Broker.  A value like
-   "https://1.2.3.4:8443/samples/my-account/" should be used.
+   should be one of the Redirect URLs configured for the sample OAuth2 Client in the Data Governance Server.  A value
+   like "https://1.2.3.4:8443/samples/my-account/" should be used.
 4. `CLIENT_ID`
-   The Client ID assigned to the My Account OAuth2 Client in the Data Broker configuration.  This is set to a known
-   value by the setup configuration script and should not typically need to be changed.
+   The Client ID assigned to the My Account OAuth2 Client in the Data Governance Server configuration.  This is set to a
+   known value by the setup configuration script and should not typically need to be changed.
 5. `SCOPES`
    The Scopes requested by the sample.  A space-separated value like "scope1 scope2 scope3" should be used.
 6. `ACR_VALUES`
    The ACR values the client will explicitly request in order of preference.  If this value is left empty the client
-   will not specify ACR values which will cause the defaults configured for it in the Data Broker to be used.
+   will not specify ACR values which will cause the defaults configured for it in the Data Governance Server to be used.
    Otherwise, a space-separated value like "MFA Default" should be used.
 7. `VALIDATE_EMAIL_ADDRESS`
    The validation messages used when validating the email address for second factor.
 8. `VALIDATE_PHONE_NUMBER`
    The validation message and providers used when validating the phone number for second factor.
 
-Changes such as using a schema other than the Data Broker's reference app schema will require more extensive
+Changes such as using a schema other than the Data Governance Server's reference app schema will require more extensive
 customization of the sample's files and configuration.  This includes modifying the application files as well as
 updating the configuration of the scopes' resource attributes.
 
@@ -154,10 +156,10 @@ updating the configuration of the scopes' resource attributes.
    without considering the security implications of this approach.  When using the implicit grant, the access tokens are
    exposed to the user and potentially other applications with access to the user's browser.  Additionally,
    sessionStorage is scoped per origin and window/tab, which makes it accessible to other applications running on the
-   same server and port (Data Broker connection handler) loaded in the same tab.  An alternate approach would be to use
-   the OAuth 2 authentication code grant, which would keep the access token on the server so that it would not be
-   exposed to the user or stored in the browser.  Please see the following specifications for additional information on
-   this issue:
+   same server and port (Data Governance Server connection handler) loaded in the same tab.  An alternate approach would
+   be to use the OAuth 2 authentication code grant, which would keep the access token on the server so that it would not
+   be exposed to the user or stored in the browser.  Please see the following specifications for additional information
+   on this issue:
 
    http://tools.ietf.org/html/rfc6749#section-1.3.2
    https://html.spec.whatwg.org/multipage/webstorage.html#the-sessionstorage-attribute

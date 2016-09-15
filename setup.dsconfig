@@ -1,12 +1,12 @@
 #
 # This dsconfig batch file creates the My Account OAuth2 Client within the
-# Data Broker and configures the Web Application Extension and Connection
-# Handler objects for the Broker to host it.
+# Data Governance Server and configures the Web Application Extension and Connection
+# Handler objects for the Data Governance Server to host it.
 #
 
 dsconfig create-oauth2-client \
     --client-name "My Account" \
-    --set "description:Data Broker sample UI for self-service account management." \
+    --set "description:Data Governance Server sample UI for self-service account management." \
     --set "client-id:@my-account@" \
     --set grant-type:implicit \
     --set url:/samples/my-account \

@@ -22,7 +22,7 @@ const CONTENT_OPT: any = {
   NOTIFICATION: X_VALUE_URN_PREFIX + 'Opt:Notification'
 };
 
-const COLLECTOR: string = X_VALUE_URN_PREFIX + ':App:Broker-UI';
+const COLLECTOR: string = X_VALUE_URN_PREFIX + ':App:my-account';
 
 const TOPICS = {};
 TOPICS[X_VALUE_URN_PREFIX + 'topic:clothing:shoes'] = 'I love shoes';
