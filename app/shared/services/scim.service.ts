@@ -703,7 +703,7 @@ export class ScimService {
     error = HttpWrapper.parseResponse(error);
     if (error instanceof ProgressEvent) {
       obj.message = 'Close the browser and reload the application. If you continue to see this error, an ' +
-          'administrator should verify the Data Governance Server CORS configuration.';
+          'administrator should verify the Data Governance Broker CORS configuration.';
       obj.details = 'ProgressEvent';
     }
     else if (error.detail) {
