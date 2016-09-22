@@ -4,8 +4,7 @@
  */
 
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
-import { Validators } from '@angular/common';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { Utility, ScimService } from '../shared/index'
