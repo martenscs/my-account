@@ -132,7 +132,10 @@ can be found near the top of the script (search for the "export" statements). Va
 6. `ACR_VALUES`
    The ACR values the client will explicitly request in order of preference.  If this value is left empty the client
    will not specify ACR values which will cause the defaults configured for it in the Data Governance Broker to be used.
-   Otherwise, a space-separated value like "MFA Default" should be used.
+   Otherwise, a space-separated value like "MFA Default" should be used.  NOTE: setup.dsconfig does not configure any
+   default ACR values for the sample.  This will cause it to use the "Default" ACR, which does not trigger second factor
+   authentication.  To enable second factor authentication, either customize the ACR_VALUES configuration value as noted
+   above or edit the sample's OAuth2 Client configuration and specify the "MFA" and "Default" ACRs (in that order).
 7. `VALIDATE_EMAIL_ADDRESS`
    The validation messages used when validating the email address for second factor.
 8. `VALIDATE_PHONE_NUMBER`
