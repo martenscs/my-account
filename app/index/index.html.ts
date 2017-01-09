@@ -16,25 +16,29 @@ export const template = `
   <p class="blurb">Edit your profile information or change your password.</p>
 </a>
 
-<a [routerLink]="['/second-factor']"
+<a *ngIf="isBrokerIdp"
+   [routerLink]="['/second-factor']"
    class="account-section">
   <div class="title">Second Factor Authentication</div>
   <p class="blurb">Enable or disable second factor authentication and configure verification methods.</p>
 </a>
 
-<a [routerLink]="['/external-identity']"
+<a *ngIf="isBrokerIdp"
+   [routerLink]="['/external-identity']"
    class="account-section">
   <div class="title">Linked Accounts</div>
   <p class="blurb">Link your social media accounts for more personalized offers and the ability to log in with your social account's username and password.</p>
 </a>
 
-<a [routerLink]="['/session']"
+<a *ngIf="isBrokerIdp"
+   [routerLink]="['/session']"
    class="account-section">
   <div class="title">Sessions</div>
   <p class="blurb">View or remove active sessions for browsers that accessed your account without signing out.</p>
 </a>
 
-<a [routerLink]="['/consent']"
+<a *ngIf="isBrokerIdp"
+   [routerLink]="['/consent']"
    class="account-section">
   <div class="title">Consent</div>
   <p class="blurb">View or remove applications that have access to your profile information.</p>

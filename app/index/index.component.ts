@@ -6,7 +6,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
-import { ScimService, Profile } from '../shared/index';
+import { Configuration, ScimService, Profile } from '../shared/index';
 import { template } from './index.html';
 
 @Component({
@@ -21,10 +21,13 @@ export class IndexComponent implements OnInit, OnDestroy  {
   private subscription: Subscription;
 
   profile: Profile;
+  isBrokerIdp = false;
 
-  constructor(private scimService: ScimService) {}
+  constructor(private configuration: Configuration, private scimService: ScimService) {}
 
   ngOnInit() {
+    this.isBrokerIdp = this.configuration.isBrokerIdp;
+
     this.subscription = this.scimService.profile$
         .subscribe((profile: Profile) => this.profile = profile);
   }
