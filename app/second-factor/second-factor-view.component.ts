@@ -7,7 +7,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
-import { ScimService, VALIDATE_PHONE_NUMBER } from '../shared/index'
+import { ScimService, PHONE_MESSAGING_PROVIDERS } from '../shared/index'
 import { template } from './second-factor-view.html';
 
 
@@ -31,7 +31,7 @@ export class SecondFactorViewComponent implements OnInit, OnDestroy  {
   validatedPhoneNumber: any;
   totpSharedSecret: any;
 
-  validatePhoneNumberConfig = VALIDATE_PHONE_NUMBER;
+  validatePhoneProviderConfig = PHONE_MESSAGING_PROVIDERS;
 
   showConfirmDisable = false;
 

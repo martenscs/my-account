@@ -91,9 +91,9 @@ export const template = `
           </h4>
           <div *ngIf="telephonyConfigured"
                class="pap-app-description">{{ validatedPhoneNumber.attributeValue }}
-            <span *ngIf="validatedPhoneNumber.messagingProvider === validatePhoneNumberConfig.MESSAGING_PROVIDERS.SMS"
+            <span *ngIf="validatedPhoneNumber.messagingProvider === validatePhoneProviderConfig.SMS"
                   class="text-muted">(Text)</span>
-            <span *ngIf="validatedPhoneNumber.messagingProvider === validatePhoneNumberConfig.MESSAGING_PROVIDERS.VOICE"
+            <span *ngIf="validatedPhoneNumber.messagingProvider === validatePhoneProviderConfig.VOICE"
                   class="text-muted">(Voice)</span>
           </div>
         </div>

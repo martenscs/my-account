@@ -55,20 +55,9 @@ export const SCOPES = URN_PREFIX + 'scope:manage_profile ' +
 
 export const ACR_VALUES = ''; // if no values are specified the defaults will be used
 
-export const VALIDATE_EMAIL_ADDRESS: any = {
-  SUBJECT: 'Ping Identity Data Governance Broker Verify Code',
-  TEXT: 'Your delivery address verify code is %code%'
-};
-
-export const VALIDATE_PHONE_NUMBER: any = {
-  MESSAGE: {
-    message: 'Ping Identity Data Governance Broker Verify Code: %code%',
-    language: 'en-US'
-  },
-  MESSAGING_PROVIDERS: {
-    SMS: 'Twilio SMS Provider',
-    VOICE: 'Twilio Voice Provider'
-  }
+export const PHONE_MESSAGING_PROVIDERS = {
+  SMS: 'Twilio SMS Provider',
+  VOICE: 'Twilio Voice Provider'
 };
 
 

@@ -6,7 +6,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { ScimService, Profile, VALIDATE_PHONE_NUMBER } from '../shared/index'
+import { ScimService, Profile, PHONE_MESSAGING_PROVIDERS } from '../shared/index'
 import { template } from './telephony-edit.html';
 
 @Component({
@@ -16,12 +16,12 @@ import { template } from './telephony-edit.html';
 export class TelephonyEditComponent implements OnInit {
 
   private _phoneNumber: string;
-  private _messagingProvider = VALIDATE_PHONE_NUMBER.MESSAGING_PROVIDERS.SMS;
+  private _messagingProvider = PHONE_MESSAGING_PROVIDERS.SMS;
 
   code: string;
   showCode: boolean;
 
-  validatePhoneNumberConfig = VALIDATE_PHONE_NUMBER;
+  validatePhoneProviderConfig = PHONE_MESSAGING_PROVIDERS;
 
   constructor(private router: Router, private scimService: ScimService) { }
 

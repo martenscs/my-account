@@ -189,10 +189,8 @@ can be found near the top of the script (search for the "export" statements). Va
    the Data Governance Broker's second factor authentication.  To enable second factor authentication, either customize
    the ACR_VALUES configuration value as noted above or edit the sample's OAuth2 Client configuration and specify the
    "MFA" and "Default" ACRs (in that order).
-8. `VALIDATE_EMAIL_ADDRESS`
-   The validation messages used when validating the email address for second factor.
-9. `VALIDATE_PHONE_NUMBER`
-   The validation message and providers used when validating the phone number for second factor.
+8. `PHONE_MESSAGING_PROVIDERS`
+   The providers used when validating the phone number for second factor.
 
 Changes such as using a schema other than the Data Governance Broker's reference app schema will require more extensive
 customization of the sample's files and configuration.  This includes modifying the application files as well as

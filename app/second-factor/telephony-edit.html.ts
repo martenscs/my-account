@@ -28,8 +28,8 @@ export const template = `
   
   <div class="radio mln mtl">
     <label>
-      <input [checked]="messagingProvider === validatePhoneNumberConfig.MESSAGING_PROVIDERS.SMS"
-             (change)="messagingProvider = validatePhoneNumberConfig.MESSAGING_PROVIDERS.SMS"
+      <input [checked]="messagingProvider === validatePhoneProviderConfig.SMS"
+             (change)="messagingProvider = validatePhoneProviderConfig.SMS"
              type="radio">
       Send me a text message
     </label>
@@ -37,8 +37,8 @@ export const template = `
   
   <div class="radio mln">
     <label>
-      <input [checked]="messagingProvider === validatePhoneNumberConfig.MESSAGING_PROVIDERS.VOICE"
-             (change)="messagingProvider = validatePhoneNumberConfig.MESSAGING_PROVIDERS.VOICE"
+      <input [checked]="messagingProvider === validatePhoneProviderConfig.VOICE"
+             (change)="messagingProvider = validatePhoneProviderConfig.VOICE"
              type="radio">
       Call me and read me a code
     </label>
