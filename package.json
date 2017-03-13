@@ -4,13 +4,13 @@
   "description": "Data Governance Broker sample UI for self-service account management.",
   "version": "1.1.1-0",
   "license": "Apache-2.0",
-  "homepage": "https://github.com/UnboundID/my-account#readme",
+  "homepage": "https://github.com/pingidentity/my-account#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/UnboundID/my-account.git"
+    "url": "https://github.com/pingidentity/my-account.git"
   },
   "bugs": {
-    "url": "https://github.com/UnboundID/my-account/issues"
+    "url": "https://github.com/pingidentity/my-account/issues"
   },
   "scripts": {
     "clean": "rm -Rf dist && mkdir dist && mkdir dist/app && mkdir dist/css && mkdir dist/vendor",
