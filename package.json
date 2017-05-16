@@ -2,7 +2,7 @@
   "private": true,
   "name": "my-account",
   "description": "Data Governance Broker sample UI for self-service account management.",
-  "version": "1.2.0",
+  "version": "1.2.1-0",
   "license": "Apache-2.0",
   "homepage": "https://github.com/pingidentity/my-account#readme",
   "repository": {
