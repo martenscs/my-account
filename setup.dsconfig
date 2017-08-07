@@ -26,16 +26,6 @@ dsconfig create-oauth2-scope \
     --set resource-operation:retrieve \
     --set resource-operation:modify
 
-# TO DO: re-enable these when SCIM subresources restored
-#
-#dsconfig create-oauth2-scope \
-#    --scope-name urn:pingidentity:scope:password_quality_requirements \
-#    --type authenticated-identity \
-#    --set "description:View the password quality requirements for the user's account." \
-#    --set "scim-sub-resource-type:Password Quality Requirements" \
-#    --set "resource-attribute:*" \
-#    --set resource-operation:retrieve
-
 dsconfig create-oauth2-scope \
     --scope-name urn:pingidentity:scope:change_password \
     --type authenticated-identity \

@@ -11,12 +11,12 @@ import 'rxjs/add/operator/map';
 // NOTE: Override these for local development (examples below).
 
 export const IDENTITY_PROVIDER_URL = 'https://my-pingfed-server:9031'; // https://[ping-federate-hostname]:[oath-port]
-export const CLIENT_REDIRECT_URL = 'samples/account-manager/callback.html'; // https://[data-governance-hostname]:[https-port]/callback.html
-export const RESOURCE_SERVER_URL = 'https://my-broker-server:8443'; // https://[data-governance-hostname]:[https-port]
-export const CLIENT_ID = '@account-manager@';
+export const CLIENT_REDIRECT_URL = 'samples/my-account/callback.html'; // https://[data-governance-hostname]:[https-port]/callback.html
+export const RESOURCE_SERVER_URL = '/'; // https://[data-governance-hostname]:[https-port]
+export const CLIENT_ID = '@my-account@';
 
 export const IDENTITY_PROVIDER_AUTH_ENDPOINT = 'as/authorization.oauth2';
-export const IDENTITY_PROVIDER_LOGOUT_ENDPOINT = '/idp/startSLO.ping';
+export const IDENTITY_PROVIDER_LOGOUT_ENDPOINT = 'idp/startSLO.ping';
 
 export const URN_PREFIX = 'urn:pingidentity:';
 

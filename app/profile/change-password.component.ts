@@ -8,14 +8,13 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 
 import { Utility, ScimService } from '../shared/index'
-//import { PasswordRequirementsComponent } from './password-requirements.component';
 import { template } from './change-password.html';
 
 @Component({
   selector: 'ubid-change-password',
   template: template
 })
-export class ChangePasswordComponent implements OnInit,AfterViewInit {
+export class ChangePasswordComponent implements OnInit, AfterViewInit {
 
   @ViewChild('newPassword') newPassword: FormControl;
 
@@ -25,7 +24,8 @@ export class ChangePasswordComponent implements OnInit,AfterViewInit {
   constructor(private builder: FormBuilder, private router: Router, private scimService: ScimService) {}
   ngOnInit(){
     var config: any = {
-            newPassword: ['', Validators.required], confirmPassword: ['', Validators.required]
+            newPassword: ['', Validators.required],
+        confirmPassword: ['', Validators.required]
     };
     this.changePasswordForm = <FormGroup> this.builder.group(
         config,

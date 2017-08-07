@@ -13,7 +13,7 @@ import 'rxjs/add/operator/share';
 
 import { Configuration, IDENTITY_PROVIDER_URL, RESOURCE_SERVER_URL, CLIENT_REDIRECT_URL, CLIENT_ID, SCOPES,
           LoadingService } from '../index';
-import {IDENTITY_PROVIDER_AUTH_ENDPOINT, IDENTITY_PROVIDER_LOGOUT_ENDPOINT} from "../../app.config";
+import { IDENTITY_PROVIDER_AUTH_ENDPOINT, IDENTITY_PROVIDER_LOGOUT_ENDPOINT } from '../../app.config';
 
 
 export const HTTP_LOADING_KEY = 'http';
