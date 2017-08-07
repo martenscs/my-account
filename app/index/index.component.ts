@@ -21,13 +21,10 @@ export class IndexComponent implements OnInit, OnDestroy  {
   private subscription: Subscription;
 
   profile: Profile;
-  isBrokerIdp = false;
 
   constructor(private configuration: Configuration, private scimService: ScimService) {}
 
   ngOnInit() {
-    this.isBrokerIdp = this.configuration.isBrokerIdp;
-
     this.subscription = this.scimService.profile$
         .subscribe((profile: Profile) => this.profile = profile);
   }

@@ -1,27 +1,12 @@
 #
-# This dsconfig batch file creates the My Account OAuth2 Client within the
-# Data Governance Broker and configures the Web Application Extension and Connection
-# Handler objects for the Data Governance Broker to host it.
+# This dsconfig batch file configures the Web Application Extension and Connection
+# Handler objects for the Data Governance Server to host the "my-account" sample.
 #
-
-dsconfig create-oauth2-client \
-    --client-name "My Account" \
-    --set "description:Data Governance Broker sample UI for self-service account management." \
-    --set "client-id:@my-account@" \
-    --set grant-type:implicit \
-    --set url:/samples/my-account \
-    --set redirect-url:/samples/my-account/callback.html
-
-# Uncomment the following command to add a redirect URL for running the sample via "npm run dev" with the default
-# configuration
-#dsconfig set-oauth2-client-prop --client-name "My Account" \
-#    --add redirect-url:http://localhost:3004/callback.html
 
 dsconfig create-oauth2-scope \
     --scope-name urn:pingidentity:scope:manage_profile \
     --type authenticated-identity \
     --set "description:View and update the user's profile." \
-    --set "consent-prompt-text:View and update your profile." \
     --set resource-attribute:addresses \
     --set resource-attribute:displayName \
     --set resource-attribute:emails \
@@ -41,135 +26,22 @@ dsconfig create-oauth2-scope \
     --set resource-operation:retrieve \
     --set resource-operation:modify
 
-dsconfig create-oauth2-scope \
-    --scope-name urn:pingidentity:scope:password_quality_requirements \
-    --type authenticated-identity \
-    --set "description:View the password quality requirements for the user's account." \
-    --set "consent-prompt-text:View your account's password quality requirements." \
-    --set "scim-sub-resource-type:Password Quality Requirements" \
-    --set "resource-attribute:*" \
-    --set resource-operation:retrieve
+# TO DO: re-enable these when SCIM subresources restored
+#
+#dsconfig create-oauth2-scope \
+#    --scope-name urn:pingidentity:scope:password_quality_requirements \
+#    --type authenticated-identity \
+#    --set "description:View the password quality requirements for the user's account." \
+#    --set "scim-sub-resource-type:Password Quality Requirements" \
+#    --set "resource-attribute:*" \
+#    --set resource-operation:retrieve
 
 dsconfig create-oauth2-scope \
     --scope-name urn:pingidentity:scope:change_password \
     --type authenticated-identity \
     --set "description:Change the user's password." \
-    --set "consent-prompt-text:Change your password." \
-    --set "scim-sub-resource-type:Password Update" \
-    --set "resource-attribute:*" \
+    --set "resource-attribute:password" \
     --set resource-operation:modify
-
-dsconfig create-oauth2-scope \
-    --scope-name urn:pingidentity:scope:manage_external_identities \
-    --type authenticated-identity \
-    --set "description:View and update the user's external identity links." \
-    --set "consent-prompt-text:View and update your account's external identity links." \
-    --set "scim-sub-resource-type:External Identity" \
-    --set "resource-attribute:*" \
-    --set resource-operation:search \
-    --set resource-operation:retrieve \
-    --set resource-operation:create \
-    --set resource-operation:modify \
-    --set resource-operation:delete
-
-dsconfig create-oauth2-scope \
-    --scope-name urn:pingidentity:scope:manage_sessions \
-    --type authenticated-identity \
-    --set "description:View and remove the user's active sessions." \
-    --set "consent-prompt-text:View and remove your active sessions." \
-    --set "scim-sub-resource-type:Session" \
-    --set "resource-attribute:*" \
-    --set resource-operation:search \
-    --set resource-operation:retrieve \
-    --set resource-operation:delete
-
-dsconfig create-oauth2-scope \
-    --scope-name urn:pingidentity:scope:manage_consents \
-    --type authenticated-identity \
-    --set "description:View and revoke the user's consents." \
-    --set "consent-prompt-text:View and revoke your consent to share information with applications." \
-    --set "scim-sub-resource-type:Consent" \
-    --set "resource-attribute:*" \
-    --set resource-operation:search \
-    --set resource-operation:retrieve \
-    --set resource-operation:delete
-
-dsconfig create-oauth2-scope \
-    --scope-name urn:pingidentity:scope:validate_email_address \
-    --type authenticated-identity \
-    --set "description:Validate the user's email address." \
-    --set "consent-prompt-text:Validate your email address." \
-    --set "scim-sub-resource-type:Email Address Validator" \
-    --set 'resource-attribute:*' \
-    --set resource-operation:create \
-    --set resource-operation:modify \
-    --set resource-operation:retrieve \
-    --set resource-operation:search
-
-dsconfig create-oauth2-scope \
-    --scope-name urn:pingidentity:scope:validate_phone_number \
-    --type authenticated-identity \
-    --set "description:Validate the user's phone number." \
-    --set "consent-prompt-text:Validate your phone number." \
-    --set "scim-sub-resource-type:Phone Number Validator" \
-    --set 'resource-attribute:*' \
-    --set resource-operation:create \
-    --set resource-operation:modify \
-    --set resource-operation:retrieve \
-    --set resource-operation:search
-
-dsconfig create-oauth2-scope \
-    --scope-name urn:pingidentity:scope:manage_totp \
-    --type authenticated-identity \
-    --set "description:Manage the user's TOTP shared secret." \
-    --set "consent-prompt-text:Manage your TOTP shared secret." \
-    --set "scim-sub-resource-type:TOTP Shared Secret" \
-    --set 'resource-attribute:*' \
-    --set resource-operation:create \
-    --set resource-operation:modify \
-    --set resource-operation:retrieve \
-    --set resource-operation:search \
-    --set resource-operation:delete
-
-dsconfig create-permitted-scope \
-    --client-name "My Account" \
-    --scope-name urn:pingidentity:scope:manage_profile
-
-dsconfig create-permitted-scope \
-    --client-name "My Account" \
-    --scope-name urn:pingidentity:scope:password_quality_requirements \
-    --set consent-required:false
-
-dsconfig create-permitted-scope \
-    --client-name "My Account" \
-    --scope-name urn:pingidentity:scope:change_password
-
-dsconfig create-permitted-scope \
-    --client-name "My Account" \
-    --scope-name urn:pingidentity:scope:manage_external_identities
-
-dsconfig create-permitted-scope \
-    --client-name "My Account" \
-    --scope-name urn:pingidentity:scope:manage_sessions
-
-dsconfig create-permitted-scope \
-    --client-name "My Account" \
-    --scope-name urn:pingidentity:scope:manage_consents
-
-dsconfig create-permitted-scope \
-    --client-name "My Account" \
-    --scope-name urn:pingidentity:scope:validate_email_address \
-    --set consent-required:false
-
-dsconfig create-permitted-scope \
-    --client-name "My Account" \
-    --scope-name urn:pingidentity:scope:validate_phone_number \
-    --set consent-required:false
-
-dsconfig create-permitted-scope \
-    --client-name "My Account" \
-    --scope-name urn:pingidentity:scope:manage_totp \
-    --set consent-required:false
 
 dsconfig create-web-application-extension \
     --extension-name "My Account" \

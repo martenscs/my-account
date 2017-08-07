@@ -61,8 +61,7 @@ Broker documentation for the required configuration to enable this feature.
 1. Extract the my-account.tar.gz file (found in the samples directory).
 2. Extract the source from the my-account-source.tar.gz file in a development environment.
 3. Customize the configuration values and optionally the other application source files and build my-account.war.
-   At a minimum, values to be customized will include `IDENTITY_PROVIDER_URL`, `RESOURCE_SERVER_URL`, and
-   `IDENTITY_PROVIDER_TYPE` (see the "Customization" section for additional details).
+   At a minimum, values to be customized will include `IDENTITY_PROVIDER_URL` and `RESOURCE_SERVER_URL`
 4. If you are deploying the custom my-account.war file in the Data Governance Broker, perform the following:
    * Use dsconfig to run the commands in the setup.dsconfig file that add the Web Application Extension and add it to
      the HTTPS Connection Handler.
@@ -108,22 +107,8 @@ The sample's default configuration depends on scopes that are created by the set
    Allows reading and modifying the user's profile attributes.
    This scope is configured with resource attributes that are defined by the Data Governance Broker's reference app
    schema.
-2. `urn:pingidentity:scope:password_quality_requirements`
-   Allows reading the user's account password quality requirements.
-3. `urn:pingidentity:scope:change_password`
+. `urn:pingidentity:scope:change_password`
    Allows resetting the user's password.
-4. `urn:pingidentity:scope:manage_external_identities`
-   Allows reading and removing user's external identity provider account links.
-5. `urn:pingidentity:scope:manage_sessions`
-   Allows reading and removing the user's active sessions.
-6. `urn:pingidentity:scope:manage_consents`
-   Allows reading and revoking the user's consent records.
-7. `urn:pingidentity:scope:validate_email_address`
-   Allows validating the user's email address. (no consent required for this client)
-8. `urn:pingidentity:scope:validate_phone_number`
-   Allows validating the user's phone number. (no consent required for this client)
-9. `urn:pingidentity:scope:manage_totp`
-   Allows managing the user's TOTP secret. (no consent required for this client)
 
 As noted above the `urn:pingidentity:scope:manage_profile` scope is configured with resource attributes that are defined
 by the Data Governance Broker's reference app schema.  If another schema is used this scope will need to be
@@ -179,24 +164,11 @@ can be found near the top of the script (search for the "export" statements). Va
    The redirect URI for the client in the OAuth flow.  This should be the address used to view the sample, and
    should be one of the Redirect URLs configured for the sample OAuth2 Client in the Data Governance Broker.  A value
    like "https://1.2.3.4:8443/samples/my-account/" should be used.
-4. `IDENTITY_PROVIDER_TYPE`
-   The type of IDP referenced by `IDENTITY_PROVIDER_URL`.  Should be set to `IdentityProviderTypes.Broker` or
-   `IdentityProviderTypes.PingFederate`.
-5. `CLIENT_ID`
+4. `CLIENT_ID`
    The Client ID assigned to the My Account OAuth2 Client in the Data Governance Broker configuration.  This is set to a
    known value by the setup configuration script and should not typically need to be changed.
-6. `SCOPES`
+5. `SCOPES`
    The Scopes requested by the sample.  A space-separated value like "scope1 scope2 scope3" should be used.
-7. `ACR_VALUES`
-   The ACR values the client will explicitly request in order of preference.  If this value is left empty the client
-   will not specify ACR values (if the IDP is a Data Governance Broker it will use the defaults configured for the
-   client). Otherwise, a space-separated value like "MFA Default" should be used.  NOTE: setup.dsconfig does not
-   configure any default ACR values for the sample.  This will cause it to use the "Default" ACR, which does not trigger
-   the Data Governance Broker's second factor authentication.  To enable second factor authentication, either customize
-   the ACR_VALUES configuration value as noted above or edit the sample's OAuth2 Client configuration and specify the
-   "MFA" and "Default" ACRs (in that order).
-8. `PHONE_MESSAGING_PROVIDERS`
-   The providers used when validating the phone number for second factor.
 
 Changes such as using a schema other than the Data Governance Broker's reference app schema will require more extensive
 customization of the sample's files and configuration.  This includes modifying the application files as well as
