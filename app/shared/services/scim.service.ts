@@ -171,21 +171,6 @@ export class ScimService {
     return this.httpWrapper.put(this.getLocation(flowState), JSON.stringify(data));
   }
 
-  getDefaultProviderIconUrl(provider: any): string {
-    if (provider.iconUrl) {
-      return provider.iconUrl;
-    }
-    switch (provider.type) {
-      case 'facebook':
-        return 'dist/img/facebook_32.png';
-      case 'google':
-        return 'dist/img/google_32.png';
-      case 'oidc':
-        return 'dist/img/openid_32.png';
-    }
-    return 'dist/img/generic-app.png';
-  }
-
   private removeSubjectEntry(subject: BehaviorSubject<any[]>, obj: any): Observable<any> {
     var o = this.httpWrapper.delete(this.getLocation(obj));
     o.subscribe(

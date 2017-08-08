@@ -24,7 +24,7 @@ export class ChangePasswordComponent implements OnInit, AfterViewInit {
   constructor(private builder: FormBuilder, private router: Router, private scimService: ScimService) {}
   ngOnInit(){
     var config: any = {
-            newPassword: ['', Validators.required],
+        newPassword: ['', Validators.required],
         confirmPassword: ['', Validators.required]
     };
     this.changePasswordForm = <FormGroup> this.builder.group(
