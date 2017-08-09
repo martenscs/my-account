@@ -13,15 +13,9 @@ import { AppComponent } from './app.component';
 import { LayoutComponent, BreadCrumbComponent, ConfirmComponent, AddressPipe, CapitalizePipe, ElapsedTimePipe,
     AlertService, LoadingService, HttpWrapper, ScimService } from './shared/index'
 import { IndexComponent } from './index/index';
-import { ProfileComponent, ProfileViewComponent, ProfileEditComponent, ChangePasswordComponent,
-    PasswordRequirementsComponent } from './profile/index';
-import { ConsentComponent, ConsentListComponent, ConsentDetailComponent } from './consent/index';
+import { ProfileComponent, ProfileViewComponent, ProfileEditComponent, ChangePasswordComponent } from './profile/index';
 import { PreferenceComponent, PreferenceViewComponent, CommunicationContentEditComponent,
     TopicEditComponent } from './preference/index';
-import { SecondFactorComponent, SecondFactorViewComponent, EmailEditComponent, TelephonyEditComponent,
-    TotpEditComponent, QrCodeComponent } from './second-factor/index';
-import { ExternalIdentityListComponent } from './external-identity/index';
-import { SessionListComponent } from './session/index';
 import { ErrorComponent } from './error/index';
 import { Configuration } from './app.config';
 import { ROUTES } from './app.routes';
@@ -45,22 +39,10 @@ import { ROUTES } from './app.routes';
     ProfileViewComponent,
     ProfileEditComponent,
     ChangePasswordComponent,
-    PasswordRequirementsComponent,
-    ConsentComponent,
-    ConsentListComponent,
-    ConsentDetailComponent,
     PreferenceComponent,
     PreferenceViewComponent,
     CommunicationContentEditComponent,
     TopicEditComponent,
-    SecondFactorComponent,
-    SecondFactorViewComponent,
-    EmailEditComponent,
-    TelephonyEditComponent,
-    TotpEditComponent,
-    QrCodeComponent,
-    ExternalIdentityListComponent,
-    SessionListComponent,
     ErrorComponent,
     AddressPipe,
     CapitalizePipe,

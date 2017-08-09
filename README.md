@@ -10,7 +10,7 @@ Data Governance Broker sample UI for self-service account management
 
 1. Extract the my-account.tar.gz file (found in the samples directory).
 2. Use dsconfig to run the commands in the setup.dsconfig file.  This will create a Web Application Extension, assign
-   the Web Application Extension to the HTTPS Connection Handler, and add the required Scope and OAuth Client objects to
+   the Web Application Extension to the HTTPS Connection Handler, and add the required Scope objects to
    the Data Governance Broker's configuration.  If you are installing the sample on a Data Governance Broker server
    group, you can apply the script to the entire server group using the "--applyChangeTo server-group" argument. For
    Data Governance Brokers added later, untar the my-account archive before cloning the configuration from an existing server.
@@ -29,9 +29,7 @@ Data Governance Broker sample UI for self-service account management
    directory of your Tomcat installation and restart).
 5. Use dsconfig to run the commands in the setup.dsconfig file that add the required Scope and OAuth Client objects to
    the Data Governance Broker's configuration.
-6. Use dsconfig or the console application to add the URL the sample application will be accessible at to the My Account
-   OAuth2 Client's Redirect URLs list.
-7. Use dsconfig or the console application to edit the HTTP Servlet Cross Origin Policy configuration to allow for
+6. Use dsconfig or the console application to edit the HTTP Servlet Cross Origin Policy configuration to allow for
    cross-domain AJAX requests to the Data Governance Broker's SCIM2 HTTP Servlet Extension. The sample application's
    origin and the Data Governance Broker's origin should be added to "cors-allowed-origins", and "GET", "DELETE", "POST"
    and "PUT" should be added to "cors-allowed-methods". E.g.,
@@ -50,9 +48,8 @@ dsconfig set-http-servlet-extension-prop --extension-name SCIM2 --set cross-orig
 
 ### Deployment with PingFederate as the Identity Provider
 
-The application's default configuration assumes a single Data Governance Broker server is performing both the Identity
-Provider (IDP) and Resource Server roles.  However, the application can also be configured to use a PingFederate server
-as the IDP.
+The application's default configuration assumes a Data Governance Broker server is performing the Resource Server role 
+and a PingFederate server is performing the Identity Provider (IDP) role.
 
 The steps below assume that both the Data Governance Broker and PingFederate server have been configured so that the
 Broker's SCIM endpoint can accept and validate the PingFederate server's access tokens.  Refer to the Data Governance
@@ -61,8 +58,7 @@ Broker documentation for the required configuration to enable this feature.
 1. Extract the my-account.tar.gz file (found in the samples directory).
 2. Extract the source from the my-account-source.tar.gz file in a development environment.
 3. Customize the configuration values and optionally the other application source files and build my-account.war.
-   At a minimum, values to be customized will include `IDENTITY_PROVIDER_URL`, `RESOURCE_SERVER_URL`, and
-   `IDENTITY_PROVIDER_TYPE` (see the "Customization" section for additional details).
+   At a minimum, values to be customized will include `IDENTITY_PROVIDER_URL` and `RESOURCE_SERVER_URL`
 4. If you are deploying the custom my-account.war file in the Data Governance Broker, perform the following:
    * Use dsconfig to run the commands in the setup.dsconfig file that add the Web Application Extension and add it to
      the HTTPS Connection Handler.
@@ -108,22 +104,8 @@ The sample's default configuration depends on scopes that are created by the set
    Allows reading and modifying the user's profile attributes.
    This scope is configured with resource attributes that are defined by the Data Governance Broker's reference app
    schema.
-2. `urn:pingidentity:scope:password_quality_requirements`
-   Allows reading the user's account password quality requirements.
-3. `urn:pingidentity:scope:change_password`
+. `urn:pingidentity:scope:change_password`
    Allows resetting the user's password.
-4. `urn:pingidentity:scope:manage_external_identities`
-   Allows reading and removing user's external identity provider account links.
-5. `urn:pingidentity:scope:manage_sessions`
-   Allows reading and removing the user's active sessions.
-6. `urn:pingidentity:scope:manage_consents`
-   Allows reading and revoking the user's consent records.
-7. `urn:pingidentity:scope:validate_email_address`
-   Allows validating the user's email address. (no consent required for this client)
-8. `urn:pingidentity:scope:validate_phone_number`
-   Allows validating the user's phone number. (no consent required for this client)
-9. `urn:pingidentity:scope:manage_totp`
-   Allows managing the user's TOTP secret. (no consent required for this client)
 
 As noted above the `urn:pingidentity:scope:manage_profile` scope is configured with resource attributes that are defined
 by the Data Governance Broker's reference app schema.  If another schema is used this scope will need to be
@@ -152,12 +134,10 @@ environment.
 If you wish to run the application in the development environment ("npm run dev"), some additional configuration will be
 required:
 
-1. The dev server's redirect URL will need to be added to the OAuth2 Client configuration via dsconfig or the console
-   application (see the commented out command in setup.dsconfig).
-2. The `IDENTITY_PROVIDER_URL` and `RESOURCE_SERVER_URL` constants in app/app.config.ts will need to be updated to use
+1. The `IDENTITY_PROVIDER_URL` and `RESOURCE_SERVER_URL` constants in app/app.config.ts will need to be updated to use
    absolute URLs since the application will be running in the development environment rather than the Data Governance
    Broker (see the commented out example override values in app/app.config.ts).
-3. The dev server's origin (http://localhost:3004) will need to be added to the HTTP Servlet Cross Origin Policy
+2. The dev server's origin (http://localhost:3004) will need to be added to the HTTP Servlet Cross Origin Policy
    configuration to allow for cross-domain AJAX requests to the Data Governance Broker's SCIM2 HTTP Servlet Extension
    (see step 7 in the "Advanced Deployment" section above).
 
@@ -172,31 +152,17 @@ Several configuration values are defined in the app/app.config.ts file for easy 
 can be found near the top of the script (search for the "export" statements). Values include:
 
 1. `IDENTITY_PROVIDER_URL`
-   The URI of the IDP's OAuth connection handler.  A value like "https://1.2.3.4:8443" should be used.
+   The URI of the Ping Federate IDP's OAuth connection handler.  A value like "https://1.2.3.4:8443" should be used.
 2. `RESOURCE_SERVER_URL`
    The URI of the Data Governance Broker's SCIM connection handler.  A value like "https://1.2.3.4:8443" should be used.
 3. `CLIENT_REDIRECT_URL`
    The redirect URI for the client in the OAuth flow.  This should be the address used to view the sample, and
    should be one of the Redirect URLs configured for the sample OAuth2 Client in the Data Governance Broker.  A value
    like "https://1.2.3.4:8443/samples/my-account/" should be used.
-4. `IDENTITY_PROVIDER_TYPE`
-   The type of IDP referenced by `IDENTITY_PROVIDER_URL`.  Should be set to `IdentityProviderTypes.Broker` or
-   `IdentityProviderTypes.PingFederate`.
-5. `CLIENT_ID`
-   The Client ID assigned to the My Account OAuth2 Client in the Data Governance Broker configuration.  This is set to a
-   known value by the setup configuration script and should not typically need to be changed.
-6. `SCOPES`
+4. `CLIENT_ID`
+   The Client ID assigned to the My Account OAuth2 Client in the PingFederate configuration. 
+5. `SCOPES`
    The Scopes requested by the sample.  A space-separated value like "scope1 scope2 scope3" should be used.
-7. `ACR_VALUES`
-   The ACR values the client will explicitly request in order of preference.  If this value is left empty the client
-   will not specify ACR values (if the IDP is a Data Governance Broker it will use the defaults configured for the
-   client). Otherwise, a space-separated value like "MFA Default" should be used.  NOTE: setup.dsconfig does not
-   configure any default ACR values for the sample.  This will cause it to use the "Default" ACR, which does not trigger
-   the Data Governance Broker's second factor authentication.  To enable second factor authentication, either customize
-   the ACR_VALUES configuration value as noted above or edit the sample's OAuth2 Client configuration and specify the
-   "MFA" and "Default" ACRs (in that order).
-8. `PHONE_MESSAGING_PROVIDERS`
-   The providers used when validating the phone number for second factor.
 
 Changes such as using a schema other than the Data Governance Broker's reference app schema will require more extensive
 customization of the sample's files and configuration.  This includes modifying the application files as well as

@@ -12,20 +12,7 @@ export const template = `
   
   <h4>Change Password</h4>
 
-  <div *ngIf="currentPasswordRequired"
-       [ngClass]="{ 'has-error': changePasswordForm.controls['currentPassword'].dirty &&
-          changePasswordForm.controls['currentPassword'].hasError('required') }"
-       class="form-group">
-    <label class="control-label required">Current&nbsp;Password </label>
-    <input formControlName="currentPassword"
-           maxlength="256"
-           type="password" placeholder="Enter Current Password" class="form-control input-sm" tabindex="1">
-    <div *ngIf="changePasswordForm.controls['currentPassword'].dirty && 
-                  changePasswordForm.controls['currentPassword'].hasError('required')"
-         class="validation-message">
-      Current Password is required.
-    </div>
-  </div>
+
   <div [ngClass]="{ 'has-error': changePasswordForm.controls['newPassword'].dirty &&
           (changePasswordForm.controls['newPassword'].hasError('required') ||
           changePasswordForm.hasError('requirements')) }"
@@ -39,7 +26,6 @@ export const template = `
          class="validation-message">
       New Password is required.
     </div>
-    <ubid-password-requirements [requirements]="passwordRequirements"></ubid-password-requirements>
   </div>
   <div [ngClass]="{ 'has-error': changePasswordForm.controls['confirmPassword'].dirty &&
           (changePasswordForm.controls['confirmPassword'].hasError('required') ||

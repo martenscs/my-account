@@ -48,10 +48,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     // navigate to the appropriate initial view
     var route = '/';
-    if (this.scimService.isIdpCallback) {
-      route = '/external-identity';
-    }
-    else if (this.scimService.error) {
+    if (this.scimService.error) {
       route = '/error';
     }
     // HACK: the router has not yet loaded its initial route at this point, so any navigation call here will get
