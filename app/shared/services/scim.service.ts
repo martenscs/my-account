@@ -31,8 +31,6 @@ export class ScimService {
   public initialized: boolean = false;
 
   public error: any;
-  
-  public isIdpCallback: boolean = false;
 
   private profile: BehaviorSubject<Profile> = new BehaviorSubject(undefined);
   private _profile$: Observable<Profile> = this.profile.asObservable();
@@ -75,9 +73,6 @@ export class ScimService {
         this.httpWrapper.bearerToken = token;
         this.window.sessionStorage.removeItem(STORAGE_KEY.ACCESS_TOKEN);
       }
-      // finish the callback operation
-      this.isIdpCallback = true;
-      this.idpCallback(params['csearch']);
     }
     else if (params['chash']) {
       // this is an OAuth callback
@@ -150,25 +145,6 @@ export class ScimService {
     o.subscribe(() => {},
         this.handleError);
     return o;
-  }
-
-  idpCallback(cbArg: any): Observable<any> {
-    var cbParams: any, flowState: any, data: any;
-
-    // decode and parse the parameters from the callback arg
-    cbParams = HttpWrapper.parseParams(HttpWrapper.decodeCallbackArg(cbArg));
-
-    // retrieve the flow state
-    flowState = JSON.parse(this.window.sessionStorage.getItem(STORAGE_KEY.FLOW_STATE));
-    this.window.sessionStorage.removeItem(STORAGE_KEY.FLOW_STATE);
-
-    // build the data to put
-    data = {
-      callbackParameters: cbParams,
-      flowState: flowState.flowState
-    };
-
-    return this.httpWrapper.put(this.getLocation(flowState), JSON.stringify(data));
   }
 
   private removeSubjectEntry(subject: BehaviorSubject<any[]>, obj: any): Observable<any> {
