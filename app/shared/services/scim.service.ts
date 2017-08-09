@@ -29,7 +29,6 @@ export class ScimService {
   private window: Window;
 
   public initialized: boolean = false;
-
   public error: any;
 
   private profile: BehaviorSubject<Profile> = new BehaviorSubject(undefined);
@@ -65,16 +64,7 @@ export class ScimService {
   init() {
     // process the initial search params when the app/service loads
     var params: Object = HttpWrapper.parseParams(this.window.location.search);
-    if (params['csearch']) {
-      // this is an IDP callback
-      // restore the access token
-      var token: string = this.window.sessionStorage.getItem(STORAGE_KEY.ACCESS_TOKEN);
-      if (token) {
-        this.httpWrapper.bearerToken = token;
-        this.window.sessionStorage.removeItem(STORAGE_KEY.ACCESS_TOKEN);
-      }
-    }
-    else if (params['chash']) {
+    if (params['chash']) {
       // this is an OAuth callback
       params = HttpWrapper.parseParams(HttpWrapper.decodeCallbackArg(params['chash']));
       if (params['access_token']) {
