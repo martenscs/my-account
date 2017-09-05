@@ -7,22 +7,18 @@ import { Injectable, Inject } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 
-
-// NOTE: Override these for local development (examples below).
-
+// NOTE: Override these as needed for deployment (examples below)
 export const IDENTITY_PROVIDER_URL = 'https://my-pingfed-server:9031'; // https://[ping-federate-hostname]:[oath-port]
-export const CLIENT_REDIRECT_URL = 'samples/my-account/callback.html'; // https://[data-governance-hostname]:[https-port]/callback.html
 export const RESOURCE_SERVER_URL = '/'; // https://[data-governance-hostname]:[https-port]
-export const CLIENT_ID = '@my-account@';
+export const CLIENT_REDIRECT_URL = 'https://my-governance-server:8443/samples/my-account/callback.html'; // https://[data-governance-hostname]:[https-port]/my-account/callback.html
 
+// NOTE: These should not need to be changed for a typical deployment
 export const IDENTITY_PROVIDER_AUTH_ENDPOINT = 'as/authorization.oauth2';
 export const IDENTITY_PROVIDER_LOGOUT_ENDPOINT = 'idp/startSLO.ping';
-
+export const CLIENT_ID = '@my-account@';
 export const URN_PREFIX = 'urn:pingidentity:';
-
 export const SCOPES = URN_PREFIX + 'scope:manage_profile ' +
-    URN_PREFIX + 'scope:change_password ';
-
+    URN_PREFIX + 'scope:change_password';
 
 @Injectable()
 export class Configuration {

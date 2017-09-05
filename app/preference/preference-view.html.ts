@@ -6,7 +6,7 @@ export const template = `
 <div class="row">
   <div class="col-md-12">
 
-    <p class="text-muted">Choose how we communicate with you and the topics that interest you.</p>
+    <p class="text-muted">Choose how we communicate with you about the topics that interest you.</p>
 
     <div class="mtl">
 

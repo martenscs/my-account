@@ -5,7 +5,6 @@
 
 import { Utility, URN_PREFIX } from './index'
 
-
 // constants for the default extension schema
 const EXTENSION_SCHEMA: string = URN_PREFIX + 'schemas:sample:profile:1.0';
 
@@ -30,7 +29,6 @@ TOPICS[X_VALUE_URN_PREFIX + 'topic:clothing:workout'] = 'I like to workout';
 TOPICS[X_VALUE_URN_PREFIX + 'topic:clothing:casual'] = 'I\'m comfortably casual';
 TOPICS[X_VALUE_URN_PREFIX + 'topic:clothing:accessories'] = 'I love to accessorize';
 TOPICS[X_VALUE_URN_PREFIX + 'topic:clothing:impress'] = 'I dress to impress';
-
 
 // This class encapsulates a profile record (contains schema-specific dependencies).
 export class Profile {

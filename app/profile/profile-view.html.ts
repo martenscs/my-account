@@ -48,7 +48,6 @@ export const template = `
            alt="user icon">
     </div>
   </div>
-
 </div>
 
 <div class="mtm">

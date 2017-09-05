@@ -27,9 +27,9 @@ export const template = `
     </div>
     <div *ngIf="details === '401'">
       <h3>Access Unauthorized</h3>
-      <p>This application is no longer authorized to access your account information.  Possible causes of this are the
-      revocation of this application's consent or the revocation or expiration of its access token.  If you would like
-      to continue using this application, click the link below to reauthorize.</p>
+      <p>This application is no longer authorized to access your account information.  This may be caused by the
+      revocation or expiration of this application's access token.  If you would like to continue using this
+      application, click the link below to reauthorize.</p>
     </div>
     <a [href]="requestAccessUrl">Request Access</a>
   </div>

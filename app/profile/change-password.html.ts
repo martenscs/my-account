@@ -12,7 +12,6 @@ export const template = `
   
   <h4>Change Password</h4>
 
-
   <div [ngClass]="{ 'has-error': changePasswordForm.controls['newPassword'].dirty &&
           (changePasswordForm.controls['newPassword'].hasError('required') ||
           changePasswordForm.hasError('requirements')) }"

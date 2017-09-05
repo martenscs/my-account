@@ -12,16 +12,12 @@ import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/share';
 import 'rxjs/add/observable/empty';
 
-import { AlertService, HttpWrapper, LoadingService, Utility, Profile,
-    URN_PREFIX } from '../index';
-
+import { AlertService, HttpWrapper, Utility, Profile } from '../index';
 
 const STORAGE_KEY: any = {
-  FLOW_STATE: 'my_account_flow_state',
   ACCESS_TOKEN: 'my_account_access_token',
   STATE: 'my_account_state'
 };
-
 
 @Injectable()
 export class ScimService {
@@ -33,7 +29,6 @@ export class ScimService {
 
   private profile: BehaviorSubject<Profile> = new BehaviorSubject(undefined);
   private _profile$: Observable<Profile> = this.profile.asObservable();
-
 
   private criticalError: BehaviorSubject<any> = new BehaviorSubject(undefined);
   private _criticalError$: Observable<any> = this.criticalError.asObservable();
@@ -53,8 +48,7 @@ export class ScimService {
 
   constructor(@Inject(Window) window: Window,
               private alertService: AlertService,
-              private httpWrapper: HttpWrapper,
-              private loadingService: LoadingService) {
+              private httpWrapper: HttpWrapper) {
 
     this.window = window;
 
@@ -137,32 +131,8 @@ export class ScimService {
     return o;
   }
 
-  private removeSubjectEntry(subject: BehaviorSubject<any[]>, obj: any): Observable<any> {
-    var o = this.httpWrapper.delete(this.getLocation(obj));
-    o.subscribe(
-        () => {
-          var objects = subject.getValue();
-          objects.splice(objects.indexOf(obj), 1);
-          subject.next(objects);
-        },
-        this.handleError
-    );
-    return o;
-  }
-
   private getUrl(path: string): string {
     return this.httpWrapper.getResourceServerUrl('scim/v2/' + path);
-  }
-
-  private processRecord(record: any): any {
-    if (record && record.meta && record.meta.lastModified) {
-      record.meta.lastModified = new Date(record.meta.lastModified);
-    }
-    return record;
-  }
-
-  private getLocation(record: any): string {
-    return (record && record.meta) ? record.meta.location : undefined;
   }
 
   private formatError(error: any, details?: string): any {
@@ -172,7 +142,7 @@ export class ScimService {
     error = HttpWrapper.parseResponse(error);
     if (error instanceof ProgressEvent) {
       obj.message = 'Close the browser and reload the application. If you continue to see this error, an ' +
-          'administrator should verify the Data Governance Broker CORS configuration.';
+          'administrator should verify the Data Governance Server CORS configuration.';
       obj.details = 'ProgressEvent';
     }
     else if (error.detail) {

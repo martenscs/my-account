@@ -4,20 +4,16 @@
  */
 
 import { Injectable, Inject } from '@angular/core';
-import { Http, Headers, Response, RequestOptionsArgs, URLSearchParams } from '@angular/http';
+import { Http, Headers, Response, RequestOptionsArgs } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/finally';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/share';
 
-
-import { Configuration, IDENTITY_PROVIDER_URL, RESOURCE_SERVER_URL, CLIENT_REDIRECT_URL, CLIENT_ID, SCOPES,
-          LoadingService } from '../index';
-import { IDENTITY_PROVIDER_AUTH_ENDPOINT, IDENTITY_PROVIDER_LOGOUT_ENDPOINT } from '../../app.config';
-
+import { Configuration, IDENTITY_PROVIDER_URL, IDENTITY_PROVIDER_AUTH_ENDPOINT, IDENTITY_PROVIDER_LOGOUT_ENDPOINT,
+    RESOURCE_SERVER_URL, CLIENT_REDIRECT_URL, CLIENT_ID, SCOPES, LoadingService } from '../index';
 
 export const HTTP_LOADING_KEY = 'http';
-
 
 @Injectable()
 export class HttpWrapper {
@@ -113,18 +109,17 @@ export class HttpWrapper {
   }
 
   public getAuthorizeUrl(state: number): string {
-    var url = this.buildUrl(IDENTITY_PROVIDER_URL, IDENTITY_PROVIDER_AUTH_ENDPOINT) + '?' +
+    return this.buildUrl(IDENTITY_PROVIDER_URL, IDENTITY_PROVIDER_AUTH_ENDPOINT) + '?' +
         'response_type=' + encodeURIComponent('token') + '&' +
         'client_id=' + encodeURIComponent(CLIENT_ID) + '&' +
         'redirect_uri=' + encodeURIComponent(CLIENT_REDIRECT_URL) + '&' +
         'scope=' + encodeURIComponent(SCOPES) + '&' +
         'state=' + state;
-    return url;
   }
 
   public getLogoutUrl(): string {
-    var url = this.buildUrl(IDENTITY_PROVIDER_URL, IDENTITY_PROVIDER_LOGOUT_ENDPOINT);
-    return url += '?TargetResource=' + encodeURIComponent(CLIENT_REDIRECT_URL);
+    return this.buildUrl(IDENTITY_PROVIDER_URL, IDENTITY_PROVIDER_LOGOUT_ENDPOINT) +
+        '?TargetResource=' + encodeURIComponent(CLIENT_REDIRECT_URL);
   }
 
   private buildUrl(base: string, path: string): string {

@@ -18,10 +18,10 @@ export class ChangePasswordComponent implements OnInit, AfterViewInit {
 
   @ViewChild('newPassword') newPassword: FormControl;
 
-
   changePasswordForm: FormGroup;
 
   constructor(private builder: FormBuilder, private router: Router, private scimService: ScimService) {}
+
   ngOnInit(){
     var config: any = {
         newPassword: ['', Validators.required],

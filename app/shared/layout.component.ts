@@ -50,5 +50,4 @@ export class LayoutComponent implements OnInit, OnDestroy {
   closeAlert(alert: Alert) {
     this.alertService.close(alert);
   }
-
 }

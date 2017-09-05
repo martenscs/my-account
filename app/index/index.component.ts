@@ -22,7 +22,7 @@ export class IndexComponent implements OnInit, OnDestroy  {
 
   profile: Profile;
 
-  constructor(private configuration: Configuration, private scimService: ScimService) {}
+  constructor(private scimService: ScimService) {}
 
   ngOnInit() {
     this.subscription = this.scimService.profile$

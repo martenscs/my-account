@@ -1,6 +1,7 @@
 #
-# This dsconfig batch file configures the Web Application Extension and Connection
-# Handler objects for the Data Governance Server to host the "my-account" sample.
+# This dsconfig batch file creates the OAuth2 Scope objects within the Data Governance Server and optionally configures
+# the Web Application Extension and Connection Handler objects for the Data Governance Server to host the My Account
+# Sample.
 #
 
 dsconfig create-oauth2-scope \
@@ -33,13 +34,17 @@ dsconfig create-oauth2-scope \
     --set "resource-attribute:password" \
     --set resource-operation:modify
 
-dsconfig create-web-application-extension \
-    --extension-name "My Account" \
-    --set "description:Web Application Extension for hosting the My Account sample application." \
-    --set base-context-path:/samples/my-account \
-    --set war-file:samples/my-account/my-account.war \
-    --set deployment-descriptor-file:config/single-page-application-web.xml
-
-dsconfig set-connection-handler-prop \
-    --handler-name "HTTPS Connection Handler" \
-    --add "web-application-extension:My Account"
+# Uncomment the following two command to create a Web Application Extension for your customized war file and associate
+# it with the Data Governance Server's HTTPS Connection Handler. Make sure you update the "war-file" parameter value to
+# point to your war file.
+#
+# dsconfig create-web-application-extension \
+#     --extension-name "My Account" \
+#     --set "description:Web Application Extension for hosting the My Account sample application." \
+#     --set base-context-path:/samples/my-account \
+#     --set deployment-descriptor-file:config/single-page-application-web.xml \
+#     --set war-file:samples/my-account/my-account.war
+#
+# dsconfig set-connection-handler-prop \
+#     --handler-name "HTTPS Connection Handler" \
+#     --add "web-application-extension:My Account"
